@@ -30,3 +30,6 @@ However, part of the code was wrong, as the last hyphen in the `sed'/techgrounds
 While at first look the line was copied to the new file techgrounds.txt, and deleted from the old file newfile.txt, when using the command cat newfile.txt, the line reappeared, even though it did not disappear from the techgrounds.txt file, leading to believe that the pipe I had created did not work correctly. I will have to look into this. 
 
 ### Results
+- Used the echo command and output redirection to write a new sentence containing the word 'techgrounds' in a text file using the command line.
+- Used a command to solely write the sentence containing the word 'techgrounds' from the file to the terminal.
+- Redirected this line to a new file called 'techgrounds.txt'

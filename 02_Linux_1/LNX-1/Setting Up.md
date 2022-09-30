@@ -54,4 +54,5 @@ Eventually and with the help of my team I was able to get Powershell working by 
 ```ssh -i C:\Users\jairv\OneDrive\Bureaublad\Nest-Ja-Eer.pem jaïr_van@3.73.91.175 -p 52206```
 
 ### Results
-Typing `whomami` showed my username   
+- Made the connection by changing the format of the key file.
+- Typing `whomami` showed my username.  

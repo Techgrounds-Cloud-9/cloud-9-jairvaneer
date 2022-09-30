@@ -28,4 +28,9 @@ See Assignment Linux 1
 
 Finding the working directory was quite easy, using the ```pwd``` command. However it turned out that the assignment asked us to look for directories that didnt exist. After we realized this, we found what we had to look for and creating a directory went easy enough. After this I did not have permission to create a new file but by using the command ```sudo chmod 777 techgrounds```, I was able to to create a text file in the techgrounds directory that we created earlier. 
 ### Results
-Found the working directory, created a new directory called techgrounds, gave our user read write and execute powers and created a text file in the new directory we created. The browsing using relative and absolute command prompts proved easy.
+- Found the working directory
+- Made a listing of all files and directories in home directory.
+- Created a new directory called techgrounds. 
+- Gave user read write and execute powers.
+- Created a text file in the new directory we created.
+- Moved around the directory tree using both absolute and relative paths by using command `cd <directory>` for an absolute path and the command `cd ..` for a relative path.
