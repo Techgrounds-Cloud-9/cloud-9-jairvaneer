@@ -1,7 +1,7 @@
 # OSI Stack
 
 ## Key terminology
-- OSI Model  
+- **OSI Model**  
 Short for Open Systems Interconnection. It is a 7 layer architecture with each layer having a specific functionality to perform. All these 7 layers work together to transmit data from one person to the other.  
 The 7 layers are divided in Media Layers (1-3) and Host Layers (4-7).   
 ***Media Layers:***  
@@ -57,9 +57,9 @@ The functions of the Application layer are:
 *2. FTAM-File transfer access and management*  
 *3. Mail Services*  
 *4. Directory Services*
-- Bits  
+- **Bits**  
 A bit is a binary digit, the smallest increment of data on a computer. A bit can hold only one of two values: 0 or 1, corresponding to the electrical values of off or on, respectively. Bits are usually assembled into a group of eight to form a byte. A byte contains enough information to store a single ASCII character, like "h".
-- Byte  
+- **Byte**  
 A Byte is a small piece of data, not to be confused with bits, an even smaller data increment. To denote the various sizes of memory and data storage the following units exist.  
 *1 Byte*  
 1 kilobyte  (KB) = 1024 bytes  
@@ -70,35 +70,35 @@ A Byte is a small piece of data, not to be confused with bits, an even smaller d
 1 exabyte   (EB) = 1024 PB  
 1 zettabyte (ZB) = 1024 EB  
 1 yottabyte (YB) = 1024 ZB
-- LLC  
+- **LLC**  
 Short for Logical Link Control. It is a sublayer of the Data Link Layer which provides the logic as it controls the synchronization, multiplexing, flow control and error-checking functions.
-- MAC  
+- **MAC**  
 Short for Media Access Control. A MAC adress is the identification number for the hardware. The NIC of every piece of hardware has a unchangeable MAC adress that is embedded by the vendor at the time of manufacturing. It is an unique ID used to identify specific network interface cards. 
-- NIC  
+- **NIC**  
 Short for Network Interface Card. It is a hardware component without which a computer cannot be connected over a network. It is a circuit board installed in a computer that provides a dedicated network connection to the computer. It is also called a *network interface controller*, *network adapter* or *LAN adapter*.
-- LAN  
+- **LAN**  
 Short for Local Area Network. It is  collection of devices connected together within one physical location. These can be small, such as an house, or big, like an office or a school. However the size, the defining characteristic of a LAN is that the connected devices are in a limited area. 
-- WAN  
+- **WAN**  
 Short for Wide Area Network. It does the same as a LAN, but for a larger geographical area. Some WANs connect many LANs together.
-- MAN  
+- **MAN**  
 Short for Metropolitan Area Network. It does the same as a LAN, but for a larger geographical area. Some MANs connect many LANs together.
-- ARP  
+- **ARP**  
 Short for Address Resolution Protocol. It is a procedure that connects an ever-changing Internet Protocol (IP) address to a fixed machine adress, also known as a media access control (MAC) adress, in a local area network (LAN). This mapping procedure is important because the lengths of the IP and MAC addresses differ, and a translation is needed so that the systems can recognize one another. The most used IP today is IP version 4 (IPv4). An IP address is 32 bits long. However, MAC addresses are 48 bits long. ARP translates the 32-bit address to 48 and vice versa.
-- IP  
+- **IP**  
 Short for Internet Protocol. An IP address is a unique address that identifies a device on the internet or a local network. The Internet Protocol is the set of rules governing the format of data sent via the internet or local network.  
 In essence, IP addresses are the identifier that allows information to be sent between devices on a network: they contain location information and make devices accessible for communication. The internet needs a way to differentiate between different computers, routers, and websites. IP addresses provide a way of doing so.
-- Segments & Segmentation  
+- **Segments & Segmentation**  
 Packet segmentation is the process of dividing a data packet into smaller units (segments) for transmission over the network. Packet segmentation happens at layer four of the OSI model; the Transport Layer. Segmentation may be required when the data packet is larger than the maximum transmission unit supported by the network, or when the network is unreliable and it is desirable to divide the information into smaller segments to maximize the probability that each one of them can be delivered correctly to the destination.
-- Flow Control 
+- **Flow Control** 
 An important function of the Data Link Layer. It refers to a set of procedures that tells the sender how much data it can transmit before waiting or acknowledgement from the receiver.
-- Error Control  
+- **Error Control**  
 The error control function of the Data Link Layer detects the errors in transmitted frames and re-transmits all the erroneous frames. It helps in dealing with data frames that are damaged in transit, data frames lost in transit, and the acknowledgement frames that are lost in transmission. The method used for error control is called Automatic Repeat Request which is used for the noisy channel. 
-- Ports  
+- **Ports**  
 A port is a virtual point where network connections start and end.  Ports are software-based and managed by a computer's operating system. Each port is associated with a specific process or service. Ports allow computers to easily differentiate between different kinds of traffic: emails go to a different port than webpages, for instance, even though both reach a computer over the same Internet connection.  
 Ports are standardized across all network-connected devices, with each port assigned a number. Most ports are reserved for certain protocols — for example, all Hypertext Transfer Protocol (HTTP) messages go to port 80. While IP addresses enable messages to go to and from specific devices, port numbers allow targeting of specific services or applications within those devices.
-- Troubleshooting  
+- **Troubleshooting**  
 Troubleshooting is a systematic approach to problem-solving that is often used to find and correct issues with complex machines, electronics, computers and software systems.
-- TCP/IP Model  
+- **TCP/IP Model**  
 Short for Transmission Control Protocol/Internet Protocol. It is a concise version of the OSI model and contains four layers. These layers are:  
 **1. Network Access Layer:**  This layer corresponds to the combination of the Data Link Layer and the Physical Layer of the OSI model. It looks out for hardware adressing and the protocols present in this layer allows for the physical transmission of data.
 **2. Internet Layer:**  
