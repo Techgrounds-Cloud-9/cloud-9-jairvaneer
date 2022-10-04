@@ -1,0 +1,41 @@
+# Ip Adressess
+
+## Key terminology
+- **IP Adress**  
+An IP adress is an unique adress that is assigned to any network device. These adresses are then used by network devices to locate one another on a network.
+- **IPv4**  
+A common format for an IP adress, made up of 32 bits/4 bytes, which are written in decimals. So four blocks of decimals, interspaced by a end-of-line point, where every block represents 1 byte. An example would be: 192.168.178.1   
+- **NAT-Table**
+Short for Network Address Translation Table. It is the heart of the NAT operation that takes place within the router, and makes it so that multiple devices on an internal network can function seperately on the same IP-adress and connect to the internet, without mixing up their connections and data.
+- **IPv6**  
+A newer version of INternet Protocol. Unlike the IPv4, which uses a 32-bit adress scheme written in decimals, Ipv6 uses a 128-bit address scheme which is written in hexadecimals, allowing for far more internet connections. 
+- **ISP**  
+Short for Internet Service Provider. This is a company that offers access to the internet for clients. Ziggo is an example of an ISP.  
+- **Public IP**  
+- **Private IP**
+
+## Exercise
+### Sources
+- https://www.firewall.cx/networking-topics/network-address-translation-nat/228-nat-table.html
+- https://community.fs.com/blog/ipv4-vs-ipv6-whats-the-difference.  
+- https://www.okta.com/identity-101/internal-ip/#:~:text=Generally%2C%20your%20internal%20IP%20address,internet%20service%20provider%20(ISP)  
+- https://www.internetvergelijk.nl/blog/wat-is-een-isp/  
+- https://www.mysmartprice.com/gear/ip-address-how-to-find/#:~:text=Go%20to%20Settings%20and%20head,Android%20smartphone%20under%20Network%20details  
+
+### Overcome challenges
+My public IP adress for phone and laptop were not showing as the same. This took me quite some time to figure out, until I found that since iphone updated to IOS 15, they've provided and option named ICloud Private Relay, which masks your IP adress. Turning that off provided the same public IP adress for phone and laptop.
+
+### Results
+- Public IP adress laptop and phone on wifi:  
+Laptop:
+Phone: 178.85.64.168  
+Laptop: 178.85.64.168 {Insert picture 1 & 2}
+- The adresses are the same because we are using the same router to connect to the internet. This is the IP adress that the router uses.
+However, when using ICloud Private Relay, the public IP adress of my phone is shown as 104.28.30.74 {insert picture #3 here}
+
+- Private IP adress laptop and phone on wifi:  
+Laptop: 192.168.178.115
+Phone: 192.168.178.157  
+- The adresses are not the same because the router assigns different internal IP adressess to all devices on a network. The router, however, has a seperate external IP adress that is decided by the ISP. {insert picture 4 & 5}  
+- When I changed the private IP adress of the phone to the private IP adress of the laptop, I lost internet connection. {insert picture #6} 
+- When I changed the IP adress of my phone to an IP adress outside my network i lost the connection to the internet.
