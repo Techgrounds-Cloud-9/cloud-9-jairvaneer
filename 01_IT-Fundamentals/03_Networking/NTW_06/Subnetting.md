@@ -51,7 +51,7 @@ Short for Classless Inter-Domain Routing. It is an alternative manner of represe
 
 
 ### Overcome challenges
-
+I was looking into NAT GAteways for VPC, Virtual Private Cloud, where they have to be placed inside the Public Subnet instead of in the Private Subnet in order to connect the Private Subnet to the internet. SO for some time I wasw a bit confused on how to draw the diagram, until I realized I needed to look at a VN, a Virtual network, instead of a VPC. 
 
 ### Results
 In order to create the network architecture that is asked, we need to create a VN, a Virtual Network with 3 subnets with a total of 51 hosts, so we use a Class C network, as this is capable of hosting 256 IP addresses. We dont use the first and last addresses in any class, so no 192.168.0.0 or 192.168.0.256. They are not used for any hosts because the first IP address is used to represent the whole network ID while the last IP address is used as the broadcast address. 
