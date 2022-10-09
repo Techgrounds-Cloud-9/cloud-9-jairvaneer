@@ -1,5 +1,5 @@
 # Files and Directories
-
+This assignment pertains to the ways in wich data is structured on a computer. 
 ## Key terminology
 - **Directory**  
 A directory is a file cataloging structure used on computers. Directories are also known as folders, which can contain files. It is often pictured as a tree, with the root directory at its base, and all other directories branching out from there. 
