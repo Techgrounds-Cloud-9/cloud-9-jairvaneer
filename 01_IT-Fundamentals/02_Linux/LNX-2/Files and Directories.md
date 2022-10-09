@@ -1,17 +1,17 @@
 # Files and Directories
 
 ## Key terminology
-- Directory  
+- **Directory**  
 A directory is a file cataloging structure used on computers. Directories are also known as folders, which can contain files. It is often pictured as a tree, with the root directory at its base, and all other directories branching out from there. 
 
-- Folder  
+- **Folder**  
 A folder holds one or more files but can also contain one or more folders. It is sometimes also called a directory. It provides a way to organize files on a computer. 
 
-- File  
+- **File**  
 The common storage unit in a computer. All programs and data are written into files of their own and read from that file. 
 
-- Terminal  
-See Assignment Linux 1 
+- **Terminal**  
+See LNX-01 
 
 ## Exercise
 ### Sources
