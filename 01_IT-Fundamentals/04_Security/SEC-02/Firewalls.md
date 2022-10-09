@@ -1,5 +1,5 @@
 # Firewalls
-Firewalls are software that filters internet traffic. In doing so, they provide a measure of security for clients.
+A Firewall is software that filters internet traffic. In doing so, they provide a measure of security for clients.
 
 ## Key terminology
 - **Firewalls**  
