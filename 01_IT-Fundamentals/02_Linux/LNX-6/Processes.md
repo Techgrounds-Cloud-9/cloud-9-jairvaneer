@@ -1,13 +1,13 @@
 # Processes
-
+This assignment pertains to the tasks that a computer can perform and how to make it perform those task.
 ## Key terminology
-- Processes  
+- **Processes**  
 The tasks that a computer performs.
-- Daemon  
+- **Daemon**  
 A program which runs in the background and is not interactive. They continue to exist and run regardles of any user being logged into the server if the computer is on.
-- Services  
+- **Services**  
 A proces that responds to requests of programs.
-- Programs  
+- **Programs**  
 A process that is run and used by users.
 
 ## Exercise
