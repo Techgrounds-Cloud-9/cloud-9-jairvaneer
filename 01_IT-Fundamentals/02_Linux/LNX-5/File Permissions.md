@@ -1,9 +1,9 @@
 # File Permissions
-
+How to change file permissions for users, groups and others.
 ## Key terminology
-- Permissions  
-See Assignment Linux 4 
-- RWX  
+- **Permissions**  
+See LNX-04. 
+- **RWX**  
 This stands for Read, Write and Execute and pertains to the permissions that any user, group or other can have in relation to a document or directive.
 
 ## Exercise
