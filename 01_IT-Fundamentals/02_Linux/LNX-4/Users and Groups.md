@@ -1,13 +1,13 @@
 # Users and Groups
-
+Users and groups are the different clients that can be found on a computer or network, all with their own permissions. 
 ## Key terminology
-- Users  
+- **Users**  
 A user is and entity that can manipulate files and perform other operations withtin the OS. Each user is assigned a unique ID and has its own permissions.
-- Permissions  
+- **Permissions**  
 Permissions control the level of access that system processes and users have to files. 
-- Root  
+- **Root**  
 Root is the superuser account in an OS. It is a user account for administrative purposes usually, with the highest permissions of all users.  
-- Sudo  
+- **Sudo**  
 Short for ‘substitute user do’ or ‘super user do’. It allows a user to temporarily use root priviliges. 
 
  
@@ -15,8 +15,8 @@ Short for ‘substitute user do’ or ‘super user do’. It allows a user to t
 ## Exercise
 ### Sources
 - https://www.geeksforgeeks.org/user-management-in-linux/#:~:text=A%20user%20is%20an%20entity,user%20in%20the%20operating%20system. 
-- https://jfrog.com/community/devops/linux-permissions-dos-and-donts/#:~:text=What%20are%20Linux%20File%20Permissions,access%20specific%20files%20and%20directories.  
-- https://www.beyondtrust.com/blog/entry/unix-linux-privileged-management-should-you-sudo#:~:text=Sudo%20stands%20for%20either%20%22substitute,account%20to%20have%20root%20privileges.  
+- https://jfrog.com/community/devops/linux-permissions-dos-and-donts/#:~:text=What%20are%20Linux%20File%20Permissions,access%20specific%20files%20and%20directories
+- https://www.beyondtrust.com/blog/entry/unix-linux-privileged-management-should-you-sudo#:~:text=Sudo%20stands%20for%20either%20%22substitute,account%20to%20have%20root%20privileges  
 - https://www.cyberciti.biz/faq/add-new-user-account-with-admin-access-on-linux/ 
 - https://www.hostinger.com/tutorials/linux-commands 
 - https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/ 
