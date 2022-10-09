@@ -1,15 +1,15 @@
 # Working With Text (CLI)
-
+This assigment deals with the CLI, an alterrnative way to browse a computer compared to the use of a GUI.
 ## Key terminology
-- Stdin  
+- **Stdin**  
 Short for Standard Input. It is an input stream where data is sent to and read by a program. Usually, the keyboard is used for this.  
-- Stdout  
+- **Stdout**  
 Short for Standard Output. It is the fiel descriptor where a process can write output. When using the terminal, the Stdout is what is read on the screen when a command is given.  
-- Terminal  
-See Assignment Linux 1  
-- I/O Redirection  
+- **Terminal**  
+See LNX-01.  
+- **I/O Redirection**  
 Short for Input/Output Redirection. It refers to the ability of the OS to change the stdin or stdout when executing a command on the terminal.  In other words, instead of reading the output of a command (input) on the screen (stdout), we can redirect it to a file or directory. This is done by using the > symbol or >> symbols.  
-- Pipe  
+- **Pipe**  
 A method to make the output of one command the input of another command. It is a form of redirection. 
 
 ## Exercise
