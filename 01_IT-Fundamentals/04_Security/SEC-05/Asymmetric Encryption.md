@@ -1,5 +1,5 @@
 # Asymmetric Encryption
-This type of encryption uses two seperate yet mathematically connected cryptographic keys, called a public key and a private key. Together these are called a *Public and private Key Pair*.
+This type of encryption uses two seperate yet mathematically connected cryptographic keys, called a public key and a private key. Together these are called a *Public and Private Key Pair*.
 ## Key terminology
 - **Asymnmetric Key Systems**  
 An asymmetric key system, also known as a public/private key system, uses two keys. The private key remains secret while the public key is made widely available to anyone who needs it. The private and public keys are mathematically tied together, so the corresponding private key can only decrypt that information encrypted using the public key.
