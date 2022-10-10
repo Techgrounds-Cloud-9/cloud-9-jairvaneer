@@ -26,6 +26,6 @@ Had the syntax `#!/usr/bin/bash` as first line to execute the bash script, my te
 
 ### Results
 - Created a directory called 'scripts'.
-- Added the scripts directory to the PATH variable.
-- Created a script that appends a line of text to a text file whenever it was executed.
-- Created a script that installed the httpd package, activated httpd, enabled httpd and printed the status of httpd in the terminal.
+- Added the scripts directory to the PATH variable. ![scripts added path](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/651463abf8cd8f2922aaae47f99c6185784b3c61/00_includes/Sprint%201/Screenshots%20Linux/LNX-07%20Bash%20Scripting/LNX-07%20Exercise%201%20-%20%231_Scripts_Directory_Path_Variable.png)
+- Created a script that appends a line of text to a text file whenever it was executed. ![append line script](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/651463abf8cd8f2922aaae47f99c6185784b3c61/00_includes/Sprint%201/Screenshots%20Linux/LNX-07%20Bash%20Scripting/LNX-07%20Exercise%201%20-%20%232_Script_Appends_Line.png)
+- Created a script that installed the httpd package, activated httpd, enabled httpd and printed the status of httpd in the terminal. ![httpd script](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/651463abf8cd8f2922aaae47f99c6185784b3c61/00_includes/Sprint%201/Screenshots%20Linux/LNX-07%20Bash%20Scripting/LNX-07%20Exercise%201%20-%20%233_HTTPD_Script.png) ![httpd script output](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/651463abf8cd8f2922aaae47f99c6185784b3c61/00_includes/Sprint%201/Screenshots%20Linux/LNX-07%20Bash%20Scripting/LNX-07%20Exercise%201%20-%20%234_Run%20HTTPD_Script.png) ![httpd script output 2](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/651463abf8cd8f2922aaae47f99c6185784b3c61/00_includes/Sprint%201/Screenshots%20Linux/LNX-07%20Bash%20Scripting/LNX-07%20Exercise%201%20-%20%235_Run%20HTTPD_Script.png)
