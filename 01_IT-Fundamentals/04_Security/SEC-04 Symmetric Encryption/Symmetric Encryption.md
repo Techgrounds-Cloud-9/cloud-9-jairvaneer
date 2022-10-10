@@ -23,12 +23,7 @@ A variable used in cryptography to encrypt data. A public key may be used by any
 Short for Secure Sockets Layer. It is an encryption protocol and the standard technology used in keeping an internet connection secure and for the protection of data between tow (or more) systems. In order to use this, a website needs to have an added SSL certificate, a digital certificate that authenticates the website's identity and enables an encrypted connection.
 - **TLS**  
 Short for Transport Layer Security. This is the improved and more secure version of SSL. Nowadays, when a website has a SSL certificate, in most cases this is a TSL certificate, but SSL is still widely applied as name because it is so well-known. 
-- **CSR**  
-Short for Certificate Signing Request. It is one of the first steps towards getting a SSL/TSL certificate. In this, all the information that is needed for the Certificate Authority (CA) to create your certificate.  
-- **CA**  
-Short for Certificate Authority. This is a company or organization that acts to validate the identity of entities such as websites or users and bind them to cryptographic keys by issuing digital certificates such as SSL or TSL certificates.  
-- **Certificate**  
-A document that acts as a digital passport, assigned to any entity that wants to participate in secure communication.
+
 
 ## Exercise
 ### Sources
@@ -39,6 +34,10 @@ A document that acts as a digital passport, assigned to any entity that wants to
 - https://www.kaspersky.com/resource-center/definitions/what-is-a-ssl-certificate  
 - https://www.ssl.com/faqs/what-is-a-certificate-authority/  
 - https://www.arcserve.com/blog/5-common-encryption-algorithms-and-unbreakables-future
+- https://www.techrepublic.com/article/solving-the-key-exchange-problem/  
+- https://www.practicalnetworking.net/series/cryptography/symmetric-encryption/  
+- https://www.dcode.fr/caesar-cipher  
+- https://travistidwell.com/jsencrypt/demo/  
 
 ### Overcome challenges
 
@@ -51,4 +50,5 @@ A document that acts as a digital passport, assigned to any entity that wants to
 **1. AES.** Short for Advanced Encryption Standard. This algorithm is trusted as the standard by the U.S. Government and numerous organizations. It uses most commonly an 128-bit form but also keys of 192 and 256 bits for heavy-duty encryption purposes.
 AES is largely considered impervious to all attacks, except for brute force, which attempts to decipher messages using all possible combinations in the 128, 192, or 256-bit cipher.  
 **2. RSA Security.** This is a public-key encryption algorithm and the standard for encrypting data sent over the internet. It uses a public key to encrypt and a private key to encrypt, making it an asymmetric key system.  
-- The biggest disadvantage of symmetric encryption is its use of a single cryptographic key to encrypt and decrypt information.
+- We used what is called a hybrid encryption, where we use the same (symmetrical) key to encrypt and decrypt our messages, but an asymmetrical key to encrypt the key. For the messages I used a Caesar Cipher with a shift of 10 to encrypt the message. Then Daphne sent me her RSA Public Key, which I used to encrypt the message ***Caesar Cipher Shift 10***. Then I sent this to her, so that she would know the cipher and the key which we used to encrypt and decrypt our messages. I sent her the message ***XUBBE WYJKF***, which when decrypted using the right cipher and key reads ***Hello Gitup*** (our group name).  
+The biggest disadvantage of symmetric encryption is its use of a single cryptographic key to encrypt and decrypt information. This creates the need pf sending the key to the other party which is a lot less secure than a asymmetrical encryption, where only the encryption key is shared but not the decryption key.

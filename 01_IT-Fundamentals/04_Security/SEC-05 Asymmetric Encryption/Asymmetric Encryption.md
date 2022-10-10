@@ -11,9 +11,15 @@ See SEC-04.
 ## Exercise
 ### Sources
 - https://cheapsslsecurity.com/blog/what-is-asymmetric-encryption-understand-with-simple-examples/  
-- 
+- https://www.practicalnetworking.net/series/cryptography/using-asymmetric-keys/
 
 ### Overcome challenges
-
+It required a bit of abstract thinking, how to send an encryption key on a public channel without others knowing what information is being sent.
 
 ### Results
+- Daphne generated a key pair and proceeded to share the public key with us on Slack. Dominic and me used the same public key to encrypt our messages to Daphne, which we sent over Slack. She then proceeded to use her private key to decrypt our messages. In the next example Daphne=A and Dominic&Jaïr=B.
+1. A generates a key-pair (public & private key)
+2. A makes its public key public.
+3. B encrypts the message with the public key.
+4. B posts the encrypted message publicly.
+5. A uses the private key to decrypt and read the message.
