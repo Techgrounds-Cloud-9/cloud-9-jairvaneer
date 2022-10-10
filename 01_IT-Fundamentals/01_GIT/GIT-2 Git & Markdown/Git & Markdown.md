@@ -24,5 +24,4 @@ Short for Visual Studio Code. It is a source code and text editor that runs on y
 Had to learn the basics of Markdown for lay-out, but this proved quite easy.
 
 ### Results
-Created a document in VS Code.
-{Insert picture here}
+- Created a document in VS Code. ![text file markdown](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/d62691adb5235871262064c0f8c4ee56e39d5402/00_includes/Sprint%201/Screenshots%20Git/GIT-02%20-%20Markdown/GIT-02%20Exercise%201_Text_File_Markdown_Editor.png)
