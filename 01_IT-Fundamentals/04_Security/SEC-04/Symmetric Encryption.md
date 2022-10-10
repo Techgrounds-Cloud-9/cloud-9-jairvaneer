@@ -26,7 +26,9 @@ Short for Transport Layer Security. This is the improved and more secure version
 - **CSR**  
 Short for Certificate Signing Request. It is one of the first steps towards getting a SSL/TSL certificate. In this, all the information that is needed for the Certificate Authority (CA) to create your certificate.  
 - **CA**  
-Short for Certificate Authority. This is a company or organization that acts to validate the identity of entities such as websites or users and bind them to cryptographic keys by issuing digital certificates such as SSL or TSL certificates.
+Short for Certificate Authority. This is a company or organization that acts to validate the identity of entities such as websites or users and bind them to cryptographic keys by issuing digital certificates such as SSL or TSL certificates.  
+- **Certificate**  
+A document that acts as a digital passport, assigned to any entity that wants to participate in secure communication.
 
 ## Exercise
 ### Sources
