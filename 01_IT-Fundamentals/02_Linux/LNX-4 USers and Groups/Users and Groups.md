@@ -27,5 +27,5 @@ Short for ‘substitute user do’ or ‘super user do’. It allows a user to t
 I tried adding a user with the command `adduser jair2`, but that failed. So I tried again using the command `sudo adduser jair2` and that worked.
 
 ### Results
-- Created a new user in my VM, part of an admin group, with a password and able to use sudo.
-- Found the data of my newly created user.
+- Created a new user in my VM, part of an admin group, with a password and able to use sudo. ![adduser](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aae4997197b7504f40281a9e2f145e0c49d2f68b/00_includes/Sprint%201/Screenshots%20Linux/LNX-04%20Users%20and%20Groups/LNX-04%20Exercise%201%20-%20%231_Create_New_User.png)
+- Found the data of my newly created user. ![userdata1](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aae4997197b7504f40281a9e2f145e0c49d2f68b/00_includes/Sprint%201/Screenshots%20Linux/LNX-04%20Users%20and%20Groups/LNX-04%20Exercise%201%20-%20%232_New_User_Data.png) ![userdata2](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aae4997197b7504f40281a9e2f145e0c49d2f68b/00_includes/Sprint%201/Screenshots%20Linux/LNX-04%20Users%20and%20Groups/LNX-04%20Exercise%201%20-%20%232_New_User_Data_2.png)
