@@ -4,11 +4,11 @@ It's about ensuring that the right people and job roles in your organization (id
 - **IAM**  
 Short for Identity and Access Management. It deals with ensuring that people and entities with digital identities have the right level of access to enterprise resources like networks and databases. User roles and access privileges are defined and managed through an IAM system.
 - **Authentication**  
-Authentication is the act of validating that users are whom they claim to be. This is the first step in any security process. There are a number of ways to do this:
-1. Passwords. Usernames and passwords are the most common authentication factors. If a user enters the correct data, the system assumes the identity is valid and grants access.
-2. One-time pins. Grant access for only one session or transaction.
-3. Authentication apps. Generate security codes via an outside party that grants access.
-4. Biometrics. A user presents a fingerprint or eye scan to gain access to the system. 
+Authentication is the act of validating that users are whom they claim to be. This is the first step in any security process. There are a number of ways to do this:  
+**1. Passwords.** Usernames and passwords are the most common authentication factors. If a user enters the correct data, the system assumes the identity is valid and grants access.  
+**2. One-time pins.** Grant access for only one session or transaction.  
+**3. Authentication apps.** Generate security codes via an outside party that grants access  
+**4. Biometrics.** A user presents a fingerprint or eye scan to gain access to the system. 
 - **Authorization**  
 Authorization in system security is the process of giving the user permission to access a specific resource or function. This is also called *access control* or *client privilege*. In secure environments, authorization must always follow authentication. Users should first prove that their identities are genuine before an organization’s administrators grant them access to the requested resources.
 - **MFA**  
