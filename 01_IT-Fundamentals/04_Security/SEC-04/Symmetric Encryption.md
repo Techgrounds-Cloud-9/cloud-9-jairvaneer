@@ -14,11 +14,11 @@ Plaintext is the original message that is being communicated between two parties
 - **Symmetric Key System**  
 In a symmetric key system, everyone accessing the data has the same key. Keys that encrypt and decrypt messages must also remain secret to ensure privacy. While it's possible for this to work, securely distributing the keys to ensure proper controls are in place makes symmetric encryption impractical for widespread commercial use.  
 - **Asymnmetric Key Systems**  
-An asymmetric key system, also known as a public/private key system, uses two keys. The private key remains secret while the public key is made widely available to anyone who needs it. The private and public keys are mathematically tied together, so the corresponding private key can only decrypt that information encrypted using the public key.
+SEE SEC-5..
 - **Private Key**  
-A private key, also known as a secret key, is a variable in cryptography that is used with an algorithm to encrypt and decrypt data. The private key is shared between the sender and receiver of data. In cybersecurity, an encryption key is a randomized string of bits used to encrypt and decrypt data. Each key is unique, and longer keys are harder to break. Typical key lengths are 128 and 256 bits for private keys and 2048 for public keys.
+See SEC-05.
 - **Public Key**  
-A variable used in cryptography to encrypt data. A public key may be used by anyone, but only the entity that holds the correct private key that is linked to a message can decrypt that message again.  
+A variable used in cryptography to encrypt data. A public key may be used by anyone, but only the entity that holds the correct private key that is linked to a message can decrypt that message again. 
 - **SSL**  
 Short for Secure Sockets Layer. It is an encryption protocol and the standard technology used in keeping an internet connection secure and for the protection of data between tow (or more) systems. In order to use this, a website needs to have an added SSL certificate, a digital certificate that authenticates the website's identity and enables an encrypted connection.
 - **TLS**  
@@ -48,4 +48,5 @@ Short for Certificate Authority. This is a company or organization that acts to 
 - Two digital ciphers that are being used today are:  
 **1. AES.** Short for Advanced Encryption Standard. This algorithm is trusted as the standard by the U.S. Government and numerous organizations. It uses most commonly an 128-bit form but also keys of 192 and 256 bits for heavy-duty encryption purposes.
 AES is largely considered impervious to all attacks, except for brute force, which attempts to decipher messages using all possible combinations in the 128, 192, or 256-bit cipher.  
-**2. RSA Security.** This is a public-key encryption algorithm and the standard for encrypting data sent over the internet. It uses a public key to encrypt and a private key to encrypt, making it an asymmetric key system.
+**2. RSA Security.** This is a public-key encryption algorithm and the standard for encrypting data sent over the internet. It uses a public key to encrypt and a private key to encrypt, making it an asymmetric key system.  
+- The biggest disadvantage of symmetric encryption is its use of a single cryptographic key to encrypt and decrypt information.
