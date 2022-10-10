@@ -30,6 +30,6 @@ However, part of the code was wrong, as the last hyphen in the `sed'/techgrounds
 While at first look the line was copied to the new file techgrounds.txt, and deleted from the old file newfile.txt, when using the command cat newfile.txt, the line reappeared, even though it did not disappear from the techgrounds.txt file, leading to believe that the pipe I had created did not work correctly. I will have to look into this. 
 
 ### Results
-- Used the echo command and output redirection to write a new sentence containing the word 'techgrounds' in a text file using the command line.
+- Used the echo command and output redirection to write a new sentence containing the word 'techgrounds' in a text file using the command line. ![echo sentence](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/e1b90e42895942c61e696089e8a88cf8ca4604d0/00_includes/Sprint%201/Screenshots%20Linux/LNX-03%20Working%20with%20Text%20(CLI)/LNX-03%20Exercise%201%20-%20%231_Echo_New_Techgrounds_Sentence.png)
 - Used a command to solely write the sentence containing the word 'techgrounds' from the file to the terminal.
-- Redirected this line to a new file called 'techgrounds.txt'
+- Redirected this line to a new file called *techgrounds.txt*. ![filter output redirect](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/e1b90e42895942c61e696089e8a88cf8ca4604d0/00_includes/Sprint%201/Screenshots%20Linux/LNX-03%20Working%20with%20Text%20(CLI)/LNX-03%20Exercise%201%20-%20%232_Filter_Output_&_Redirect.png)
