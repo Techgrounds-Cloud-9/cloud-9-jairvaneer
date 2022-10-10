@@ -24,5 +24,5 @@ A process that is run and used by users.
 ### Results
 - Started the telnet daemon.  
 - Found the PID of the telnet Daemon.
-- Found out how much memory telnetd is using.
-- Killed the telnetd process.
+- Found out how much memory telnetd is using. ![telnet pid memory](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/7d9ce46dacf2a94c111fd38ea4a872072625d7ab/00_includes/Sprint%201/Screenshots%20Linux/LNX-06%20Processes/LNX-06%20Exercise%201%20-%20%231_2_3_Telnet_PID_Memory.png)
+- Killed the telnetd process. ![kill telnet](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/7d9ce46dacf2a94c111fd38ea4a872072625d7ab/00_includes/Sprint%201/Screenshots%20Linux/LNX-06%20Processes/LNX-6%20Exercise%201%20-%20%234_Kill_Telnet.png) ![telnet stopped](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/7d9ce46dacf2a94c111fd38ea4a872072625d7ab/00_includes/Sprint%201/Screenshots%20Linux/LNX-06%20Processes/LNX-6%20Exercise%201%20-%20%234_Show_Process_Stopped.png)
