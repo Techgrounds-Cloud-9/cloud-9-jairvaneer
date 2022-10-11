@@ -1,8 +1,10 @@
 # Network Devices
 An introduction to network devices and how to connect these to one another.
 ## Key terminology
-- **Network**
-- **Protocols**
+- **Network**  
+A network is defined as the connection of at least two computer systems, either by a cable or a wireless connection. The simplest network is a combination of two computers connected by a cable. This type of network is called a peer-to-peer network.
+- **Protocols**  
+ A protocol is a set of rules for formatting and processing data. Network protocols are like a common language for computers. The computers within a network may use vastly different software and hardware; however, the use of protocols enables them to communicate with each other regardless.
 - **Network Devices**  
 Network devices, or networking hardware, are physical devices that are required for communication and interaction between hardware on a computer network. A list of common network devices includes:
  **1. Hub:** A hub connects mulitple computer networking devices together. Besides this is also acts as a repeater in order to amplify signals that weaken after travelling long distyances over connecting cables. A Hub is a simple networking device, only connecting LAN components with identical protocols. 
