@@ -1,14 +1,13 @@
 # Cron jobs
 
 ## Key terminology
-- Bash Script  
-See Assignment 7, Exercise 1. 
-
-- Cron  
+- **Bash Script**  
+See LNX-07.
+- **Cron**  
 Cron is a time-based system utility that can be used to schedule programs. Its name is derived from the Greek word for time, Chronos.
-- Cronjob  
+- **Cronjob**  
 A cron job is a task that is executed at specified intervals. The tasks can be scheduled to run by a minute, hour, day of the month, month, day of the week, or any combination of these.  
-- Crontab  
+- **Crontab**  
 Short for cron table. It is a configuration file that holds an overview of the cronjobs. In order to execute these cronjobs crontab uses the daemon cron.
 
 ## Exercise
