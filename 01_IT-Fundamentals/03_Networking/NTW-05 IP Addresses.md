@@ -44,13 +44,17 @@ My public IP address for phone and laptop were not showing as the same. This too
 - Public IP address laptop and phone on wifi:  
 Laptop:
 Phone: 178.85.64.168  
-Laptop: 178.85.64.168 {Insert picture 1 & 2}
+![IP phone](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-05/NTW-05%20Exercise%201%20-%20%232_Public_IP_Phone.PNG)
+Laptop: 178.85.64.168  
+![IP laptop](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-05/NTW-05%20Exercise%201%20-%20%231_Public_IP_Laptop.png)
 - The addresses are the same because we are using the same router to connect to the internet. This is the IP address that the router uses.
-However, when using iCloud Private Relay, the public IP address of my phone is shown as 104.28.30.74 {insert picture #3 here}
-
+However, when using iCloud Private Relay, the public IP address of my phone is shown as 104.28.30.74  
+![iCloud pivate relay](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-05/NTW-05%20Exercise%201%20-%20%233_Public_IP_Phone_ICloud_Private_Relay.PNG)
 - Private IP address laptop and phone on wifi:  
-Laptop: 192.168.178.115
+Laptop: 192.168.178.115  
+![Private IP Laptop](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-05/NTW-05%20Exercise%201%20-%20%234_Private_IP_Laptop.png)
 Phone: 192.168.178.157  
-- The addresses are not the same because the router assigns different internal IP adressess to all devices on a network. The router, however, has a seperate external IP address that is decided by the ISP. {insert picture 4 & 5}  
-- When I changed the private IP address of the phone to the private IP address of the laptop, I lost internet connection. {insert picture #6} 
+![Private IP phone](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-05/NTW-05%20Exercise%201%20-%20%235_Private_IP_Phone.PNG)  
+- The addresses are not the same because the router assigns different internal IP adressess to all devices on a network. The router, however, has a seperate external IP address that is decided by the ISP.
+- When I changed the private IP address of the phone to the private IP address of the laptop, I lost internet connection. ![Changed IP laptop](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-05/NTW-05%20Exercise%201%20-%20%236_Changed_IP_Phone_Laptop.PNG)
 - When I changed the IP adress of my phone to an IP address outside my network i lost the connection to the internet.

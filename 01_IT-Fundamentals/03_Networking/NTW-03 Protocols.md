@@ -28,7 +28,7 @@ A unit of data in a typical Ethernet network.
 
 
 ### Results
-- Insert image OSI stack protocol here
+![Protocols-OSI](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-03/NTW-03%20Exercise%201%20-%20%231_OSI_VS_TCP_Protocols.jpg)
 - Protocols  
 A number of organisations are involved with determining what prtocols we use. These organisations are: 
 1. The Institute of Electrical and Electronics Engineers (IEEE) 
@@ -39,5 +39,4 @@ A number of organisations are involved with determining what prtocols we use. Th
 In order to introduce your own internet protocol, you need to write a draft and submit it to the IETF if you want other people to use it, and for it to become a standardized network protocol.   
 If it is just for private use, you can pick a port, design the protocol and write the code which defines what commands can be sent and how the receiver reacts to different commands. This is the software, which you can then implement and use.
 - Found a TCP three way handshake occurring in my data. A Three way handshake is a process in which a TCP/IP network is useed yo make a connection between the server and the client. It is a three step process in which first is asked for synchronization (SYN), followed by an acknowledgment (SYN, ACK), which is thereafter acknowledged by the first side (ACK)
-This can be seen in the screenshot.
-Insert image here.
+![Three-Way Handshake](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-03/NTW-03%20Exercise%201%20-%20%232_Three_Way_Handshake.png)

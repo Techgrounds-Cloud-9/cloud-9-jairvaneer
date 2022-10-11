@@ -71,5 +71,6 @@ For Private Subnet B we need 31 hosts + the NAt Gateway, which makes 31 host IP 
 
 /27 only provided 32 IP adresses, so we need /26 which provides 64-2=62 IP adressess.  . This means that for Private Subnet B the network ID is 192.168.0.32/27, the usable IP addresses are 192.168.0.33/26 - 192.168.0.94/26 and the broadcast address is 192.168.0.95/26 and the subnet mask is 255.255.255.192. 
 
-For Public Subnet C we need five hosts + Internet Gateway = six so /29. The network ID is 192.168.0.96/29, the IP addresses range from 198.168.0.97/29 - 198.168.0.102/29, the broadcast address is 192.168.0.103/29 and the subnet mask is 255.255.255.248.
-
+For Public Subnet C we need five hosts + Internet Gateway = six so /29. The network ID is 192.168.0.96/29, the IP addresses range from 198.168.0.97/29 - 198.168.0.102/29, the broadcast address is 192.168.0.103/29 and the subnet mask is 255.255.255.248.  
+![Subnetting](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-06/NTW-06%20Exercise%201%20-%20%232_Virtual_Network.png)
+![Available hosts](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-06/NTW-06%20Exercise%201%20-%231_Table_Available%20Host_Class_C_Network.png)

@@ -142,4 +142,5 @@ This layer parallels the functions of OSI’s Network layer. It defines the prot
 The understanding of two different models, which were entirely foreign to me, and the numerous terms and concepts involved with the models, proved some difficulty in unerstanding. With the help of numerous articles I was able to graps the concepts and models from this assignment.
 
 ### Results
-Understand the difference between the OSI and the TCP/IP models, the terminology included in either, and when to use the one versus the other.
+Understand the difference between the OSI and the TCP/IP models, the terminology included in either, and when to use the one versus the other. ![OSI Stack](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-01/NTW-01%20Exercise%201%20-%20%231_OSI_Stack.png)
+![TCP/IP](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/aa84f58660b0f5d9e2154beefde64313c435cdbc/00_includes/Sprint%202/Screenshots%20Network/NTW-01/NTW-01%20Exercise%201%20-%20%232_TCP_IP.png)
