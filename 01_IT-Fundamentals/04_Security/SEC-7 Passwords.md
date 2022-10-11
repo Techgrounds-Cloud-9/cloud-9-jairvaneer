@@ -18,8 +18,10 @@ Salting is the process of adding unique random strings of characters to password
 - https://www.educative.io/answers/what-is-hashing  
 - https://www.geeksforgeeks.org/understanding-rainbow-table-attack/  
 - https://www.makeuseof.com/what-is-salting/  
-- https://www.baeldung.com/cs/hashing-vs-encryption
-
+- https://www.baeldung.com/cs/hashing-vs-encryption  
+- https://crackstation.net/  
+- https://www.geekyhacker.com/2021/04/11/verify-a-users-password-in-linux/  
+- https://cyberhoot.com/cybrary/password-salting/
 ### Overcome challenges
 
 
@@ -28,4 +30,8 @@ Salting is the process of adding unique random strings of characters to password
 - A rainbow table works by doing a cryptanalysis very quickly and effectively. Hackers must first gain access to leaked hashes in order to carry out rainbow table attacks. Once they have the password hashes and know what type of hash algorithm is used the rainbow table is used to help decrypt the password hashes.  
 A rainbow table for a hashing algorithm holds all the hashes for any number of plaintext values that can be used as a password. By hashing and rehashing a plaintext string a chain of plaintext string hashes is created, that spans from the first plaintext to the last hash. When enough of these chains are produced, they are stored in a table. Starting off with the hashed text (the password) its checked if it exists in the database. If so, go to the start of the chain and start hashing until there is a match. As soon as the match is obtained, the process ceases and the authentication is cracked.  
 ![flowchart rainbow table](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/9912fedc3db5058d841736485f87a1676c35ca40/00_includes/Sprint%202/Screenshots%20Security/SEC-07%20Passwords/SEC-07%20Exercise%201%20-%20%231_How_Rainbow_Table_Works.png)
-- 
+- First hash '03F6D7D1D9AAE7160C05F71CE485AD31' gives as result 'welldone!'.  
+ Second hash '03D086C9B98F90D628F2D1BD84CFA6CA' gives no result as the hash is not found in the table.  
+ - Created a new user `rainbowuser` with password `12345`. Using `sudo cat /etc/shadow` gave the following output `$6$j.TyT/YgNb/A/xDS$nh4jJxiEnjMgrKlTC4CbGa6q8jhPUXycQnj5IGHMbt6XCiWcJQGtgehxPWQDu02zPbPUMXKqE.3W4IPKmdEcH0:19276:0:99999:7:::`, of which the first part `$6$` indicates that hashing algorithm SHA-512 was used. the string between the second `$` and the third `$`, `j.TyT/YgNb/A/xDS` is the salt of the password, and the exact password is everything between the third `$` and `:`, which in our case is `nh4jJxiEnjMgrKlTC4CbGa6q8jhPUXycQnj5IGHMbt6XCiWcJQGtgehxPWQDu02zPbPUMXKqE.3W4IPKmdEcH0`.  
+ - However, when using the rainbow table, we do not get a match. That is because the password is salted. ![new user added](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/b683c666084be59490a3d8fa8a276223f3d6d28e/00_includes/Sprint%202/Screenshots%20Security/SEC-07%20Passwords/SEC-07%20Exercise%201%20-%20%232_New_User_Hash.png)  
+ So while using the same password `12345`, when comparing with a peer our hashes looked different. ![peer hash](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/72cb76453851b820fa69d37f74c15335878ae1bc/00_includes/Sprint%202/Screenshots%20Security/SEC-07%20Passwords/SEC-07%20Exercise%201%20-%20%233_Peer_Hash.png)
