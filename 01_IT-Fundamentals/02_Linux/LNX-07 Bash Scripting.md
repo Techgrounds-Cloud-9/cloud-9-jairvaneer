@@ -1,14 +1,23 @@
 # Bash Scripting Exercise 1
 
 ## Key terminology
-- Bash Shell
-- Bash Script
-- Permissions
-- Directory 
-- PATH Variable 
-- HTTPD
-- Variables  
-- Conditions 
+- **Bash**  
+Short for Bourne Again Shell.  A shell is a command interpreter, software that figures out what the different command inputs in the CLI mean.
+- **Bash Script**  
+A Bash script is a plain text file which contains a series of commands.
+- **Permissions**  
+In Linux, file permissions, attributes, and ownership control the access level that the system processes and users have to files. This ensures that only authorized users and processes can access specific files and directories.
+- **Directory**  
+ A directory is a unique type of file that contains only the information needed to access files or other directories. As a result, a directory occupies less space than other types of files. File systems consist of groups of directories and the files within the directories.
+- **PATH Variable**  
+ The PATH environment variable is an important security control. It specifies the directories to be searched to find a command. The default systemwide PATH value is specified in the `/etc/profile` file, and each user normally has a PATH value in the user's `$HOME/`.
+- **HTTPD**  
+HTTPd is a software program, that usually runs in the background, as a process. It plays the role of server in a client-server model using HTTP and/or HTTPS network protocols. HTTPd waits for the incoming client requests and for each request it answers by replying with requested information.
+- **Variables**  
+Variables are areas of memory that can be used to store information and are referred to by a name. Whenever the shell sees a word that begins with a "$", it tries to find out what was assigned to the variable and substitutes it.To create a variable, put a line in the script that contains the name of the variable followed immediately by an equal sign ("="). No spaces are allowed. After the equal sign, assign the information to store.
+- **Conditions**  
+Conditions can be used within a script or automation to prevent further execution. When a condition does not return true, the script or automation stops. A condition will look at the system at that moment. For example, a condition can test if a switch is currently turned on or off.
+Unlike a trigger, which is always `or`, conditions are `and` by default, since all conditions have to be true.
 
 ## Exercise
 ### Sources
@@ -29,7 +38,9 @@ https://medium.com/@ertorrez/use-a-script-to-install-and-launch-an-apache-server
 - https://stackoverflow.com/questions/1194882/how-to-generate-random-number-in-bash 
 - https://tldp.org/LDP/abs/html/randomvar.html 
 - https://stackoverflow.com/questions/3737740/is-there-a-better-way-to-run-a-command-n-times-in-bash
-- https://linuxize.com/post/bash-if-else-statement/
+- https://linuxize.com/post/bash-if-else-statement/  
+- https://www.ibm.com/docs/ssw_aix_72/devicemanagement/directories.htm  
+- https://acloudguru.com/blog/engineering/conditions-in-bash-scripting-if-statements
 ### Overcome challenges
 - Wrote script to install apache2 as httpd server, but the script didn’t run, got the error bad interpreter: no such file or directory.
  The scripts were not not working for the first few times. I figured out this was because of the use of `#!/usr/bin/bash` while I should have been using `#!/bin/bash` to get the script to execute.
