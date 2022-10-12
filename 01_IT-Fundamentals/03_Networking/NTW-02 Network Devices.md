@@ -32,3 +32,15 @@ Short for Service Set Identifier. It is the technical name of any network. It is
 Roommate with password of router is unavailable, will update shortly.
 
 ### Results
+- A list of the most common network equipment and their function:  
+*1. Hub*: Hubs connect multiple computer networking devices together. A hub also acts as a repeater in that it amplifies signals that deteriorate after traveling long distances over connecting cables.  
+*2. Switch*: A switch is a multiport device that improves network efficiency. The switch maintains limited routing information about nodes in the internal network, and it allows connections to systems like hubs or routers. Mopst switches can read the hardware addresses of incoming packets to transmit them to the appropriate destination.  
+*3. Router*: Routers help transmit packets to their destinations by charting a path through the sea of interconnected networking devices using different network topologies.  
+*4. Bridge*: Bridges are used to connect two or more hosts or network segments together. They store and forward frames between the different segments that the bridge connects.  
+*5. Gateway*: Gateways normally work at the Transport and Session layers of the OSI model. At the Transport layer and above, there are numerous protocols and standards from different vendors; gateways are used to deal with them. Gateways provide translation between networking technologies such as Open System Interconnection (OSI) and Transmission Control Protocol/Internet Protocol (TCP/IP). 
+*6. Modem*:Modems (modulators-demodulators) are used to transmit digital signals over analog telephone lines. Thus, digital signals are converted by the modem into analog signals of different frequencies and transmitted to a modem at the receiving location. The receiving modem performs the reverse transformation and provides a digital output to a device connected to a modem, usually a computer.  
+*7. Repeater*: A repeater is an electronic device that amplifies the signal it receives. It receives a signal and retransmits it at a higher level or higher power so that the signal can cover longer distances.  
+*8. Access Point*:  An acces point (AP) works at the second OSI layer, the Data Link layer, and it can operate either as a bridge connecting a standard wired network to wireless devices or as a router passing data transmissions from one access point to another.  
+- Problems connecting to the main internet account, will come back to this.  
+- This is the DHCP server on the network that I'm connected to:  
+![DHCP](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/c79b0311693cc3eb624ec5a788f28dc8d8f48864/00_includes/Sprint%202/Screenshots%20Network/NTW-02/NTW-02%20Exercise%201%20-%20%232_DHCP.png)
