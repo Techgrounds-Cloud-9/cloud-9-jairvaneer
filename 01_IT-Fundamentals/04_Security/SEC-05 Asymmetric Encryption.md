@@ -22,4 +22,6 @@ It required a bit of abstract thinking, how to send an encryption key on a publi
 2. A makes its public key public.
 3. B encrypts the message with the public key.
 4. B posts the encrypted message publicly.
-5. A uses the private key to decrypt and read the message.
+5. A uses the private key to decrypt and read the message.  
+![Encrypted Communication Slack](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/e349d8e0e069388d31dfe9373bf42faabdb1a81f/00_includes/Sprint%202/Screenshots%20Security/SEC-05%20Asymmetric%20Encryption/SEC-05%20Exercise%201%20-%20%231_Slack_Encrypted_Communication.png)  
+![Encrypted Message](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/e349d8e0e069388d31dfe9373bf42faabdb1a81f/00_includes/Sprint%202/Screenshots%20Security/SEC-05%20Asymmetric%20Encryption/SEC-05%20Exercise%201%20-%20%232_Screenshot_Ja%C3%AFr_Message.png)
