@@ -22,5 +22,7 @@ Stateless firewalls are designed to protect networks based on static information
 I used the wrong port to access the default landing page in my browser. Took me quite long to figure that out, team pointed me in the right direction.
 
 ### Results
-After installing apache I was able to browse to the standard landing page for the apache webserver. {insert picture here}  
-By using the command `sudo ufw deny '80'` is was able to block internet traffic, while ssh was still open. {insert picture here}
+- After installing Apache I was able to browse to the standard landing page for the apache webserver.  
+![APache landing page](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/0ce94ceab78e4a3ea5f56efd78c1ec14c4b32318/00_includes/Sprint%202/Screenshots%20Security/SEC-02%20Firewalls/SEC-02%20Exercise%201%20-%20%231_Apache_Page.png)  
+- By using the command `sudo ufw deny '80'` is was able to block internet traffic, while ssh was still open.  
+![block traffic](https://github.com/Techgrounds-Cloud-9/cloud-9-jairvaneer/blob/0ce94ceab78e4a3ea5f56efd78c1ec14c4b32318/00_includes/Sprint%202/Screenshots%20Security/SEC-02%20Firewalls/SEC-02%20Exercise%201%20-%20%232_Firewall_Allow_SSH.png)
