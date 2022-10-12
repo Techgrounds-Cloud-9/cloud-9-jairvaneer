@@ -82,4 +82,4 @@ Systems hardening demands a methodical approach to audit, identify, close, and c
 
 ### Results
 - The RPO of the database of a company that makes daily backups of their database is determined by the time between back ups, as RPO is concerned with answering the question "Up to what point in time can the recovery process move tolerably, given the volume of data lost during that interval?". The company has decided that for them the loss of data up to one day old is tolerable, so their RPO is 24 hours. The time it takes to recover data lost up until the last back up is 15 minutes in this case, and that is their RTO.
-- The RTO of a company that has a automatic failover to a back up server configured for their website is the length of the process it takes for the back up to be powered up and pull the newest version. In this case that is 8 minutes.
+- The RTO of a company that has an automatic failover to a back up server configured for their website is the length of the process it takes for the back up to be powered up and pull the newest version. In this case that is 8 minutes.
