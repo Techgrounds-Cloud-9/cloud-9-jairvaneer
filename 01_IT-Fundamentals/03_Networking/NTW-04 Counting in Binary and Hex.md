@@ -23,7 +23,7 @@ No problems here, just learning how to convert and counting.
 ### Results
 | Decimal | Binary|  
 | --- | --- |  
-| 16 | 10000 |  
+| 16 | 00010000 |  
 | 128 | 10000000 |  
 | 228 | 11100100 | 
 | 112 | 1110000 | 
