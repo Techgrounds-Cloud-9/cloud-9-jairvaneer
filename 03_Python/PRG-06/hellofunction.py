@@ -1,4 +1,4 @@
-def myfunction():
-    print("Hello, world!")
+def myfunction(fname):
+    print("Hello, " + fname + "!")
     return
-myfunction()
+myfunction("Jaïr")
