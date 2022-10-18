@@ -1,4 +1,3 @@
-
 name=input("Please tell me your name: ")
 if name=="Jaïr":
     print("Welcome back Sir")
