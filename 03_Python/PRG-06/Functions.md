@@ -12,7 +12,9 @@ A function is a block of code that only runs when it is called.
 - https://www.tutorialspoint.com/generating-random-number-list-in-python  
 - https://www.w3schools.com/python/python_functions.asp  
 - https://stackoverflow.com/questions/52578602/how-does-a-python-recursive-function-works-for-tri-recursion-function  
-- https://www.quora.com/How-do-I-calculate-an-average-in-Python
+- https://www.quora.com/How-do-I-calculate-an-average-in-Python  
+- https://towardsdatascience.com/how-to-create-user-defined-functions-in-python-e5a529386534  
+- https://realpython.com/lessons/function-calls-definitions/  
 
 ### Overcome challenges
 - In exercise 1, I named my python file "random.py" but that gave an error I was not familiar with. When I renamed the file to "rndm.py" it worked. 
