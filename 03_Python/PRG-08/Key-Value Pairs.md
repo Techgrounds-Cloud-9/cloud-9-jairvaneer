@@ -20,7 +20,10 @@ Dictionaries are used to store value in key-value pairs. A distionary is a colle
 - https://realpython.com/iterate-through-dictionary-python/  
 - https://www.w3schools.com/python/python_dictionaries.asp  
 - https://stackoverflow.com/questions/26660654/how-do-i-print-the-key-value-pairs-of-a-dictionary-in-python  
-- 
+- https://www.pythonforbeginners.com/basics/append-dictionary-to-csv-file-in-python  
+- https://bobbyhadz.com/blog/python-add-user-input-to-dictionary  
+- https://stackoverflow.com/questions/8685809/writing-a-dictionary-to-a-csv-file-with-one-line-for-every-key-value  
+- https://stackoverflow.com/questions/55980027/building-a-csv-based-on-user-input  
 
 ### Overcome challenges
 Needed to add `'r+'` in order to make the csv file writeable.
