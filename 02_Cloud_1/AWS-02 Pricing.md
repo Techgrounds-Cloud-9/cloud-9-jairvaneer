@@ -25,6 +25,11 @@ These are certain AWS services that are always free to use, as long as you are a
 Short for Capital Expenditure. This term is used to denote the business expenses incurred in order to create long-term benefits in the future. In iT, items such as servers, computers, printers and scanners are items that fall under this category.
 - **OpEx**  
 Short for Operating Expenditure. Thses are your operating costs, the expenses to run day-to-day business. This includes printer cartridges and paper, electricity, and even yearly services like website hosting or domain registrations.  
+- **TCO**  
+Short for Total Cost of Operating. In this, all financial aspects of running a business are brought together, and is therefore the sum of the CapEx and OpEx. In cloud, this pertains to the costs required to host, run, integrate, secure and manage workloads in the cloud over their lifetime. When calculating your AWS TCO (costs of using AWS ober traditional servers), you should first calculate your current TCO. Factors to include are : data center facilites, hardware and infrastructure, software, personnel, disaster recovery and security.  
+Also, cloud offers additional benefits and opportunities compared to traditional hosting, such as innovation and elasticity.
+- **Elasticity**
+The ability to handle peak loads of data when needed, without maintaining redundant infrastructure during normal amouints of data stream. 
 - **GET request**  
 A GET request is the act of requesting of file retrieval. In the S3 free tier, customers can request up to 20.000 files monthly from their storage.  
 - **PUT request**  
