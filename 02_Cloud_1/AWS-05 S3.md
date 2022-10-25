@@ -9,7 +9,9 @@ AWS S3 is a object based storage service from AWS.
 - https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html
 - https://docs.aws.amazon.com/AmazonS3/latest/userguide/finding-canonical-user-id.html  
 - https://docs.aws.amazon.com/AmazonS3/latest/userguide/HostingWebsiteOnS3Setup.html  
-- 
+- https://www.atensoftware.com/p90.php?q=309  
+- https://aws.amazon.com/premiumsupport/knowledge-center/cross-account-access-s3/  
+
 
 ### Overcome challenges
 
