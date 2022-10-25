@@ -13,4 +13,4 @@ AWS S3 is a object based storage service from AWS.
 
 
 ### Results
-- Created a new S3 bucket 'jairbucketcatpicture', uploaded a cat picture to it. GAve public access to the picture.Shared the object URL with Wim, he could see it. This is the {link}[https://jairbucketcatpicture.s3.eu-central-1.amazonaws.com/catpic.jpg]
+- Created a new S3 bucket 'jaircatpicture', uploaded a cat picture to it. Gave public access to the picture. Shared the object URL with Wim, he could see it.
