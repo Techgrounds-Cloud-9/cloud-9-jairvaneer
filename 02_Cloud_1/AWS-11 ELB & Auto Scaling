@@ -1,13 +1,23 @@
-# Subject
+# ELB & Auto Scaling
 
 ## Key terminology
 
 
 ## Exercise
 ### Sources
-
+- https://docs.aws.amazon.com/toolkit-for-visual-studio/latest/user-guide/tkv-create-ami-from-instance.html  
+- https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-application-load-balancer.html  
+- https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html  
+- https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-register-targets.html  
+- https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html  
 
 ### Overcome challenges
-
+No problems, just learning.
 
 ### Results
+- Launched an EC2 instance.  
+- Created the AMI.  
+- Created the Application Load Balancer.  
+- Created the security Group.  
+- Created the Target Group.  
+- Created the Launch Configuration
