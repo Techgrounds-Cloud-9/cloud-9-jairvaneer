@@ -1,4 +1,4 @@
-# Subject
+# DynamoDB
 
 ## Key terminology
 

@@ -1,4 +1,4 @@
-# Subject
+# Config
 
 ## Key terminology
 

@@ -1,4 +1,4 @@
-# Subject
+# SNS, SQS, Event Bridge
 
 ## Key terminology
 

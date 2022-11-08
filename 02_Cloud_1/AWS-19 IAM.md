@@ -1,4 +1,4 @@
-# Subject
+# IAM
 
 ## Key terminology
 
