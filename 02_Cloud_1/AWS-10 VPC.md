@@ -1,5 +1,5 @@
 # VPC
-SHort for Virtual Privayte CLoud. This is a virtual private data center in the cloud. This network is isolated from other networks. With a VPC you have full control over the design of the network, as you control the creation of subnets, internet gateways (IGW), NAT gateways, VPN connections and more.  
+Short for Virtual Privayte CLoud. This is a virtual private data center in the cloud. This network is isolated from other networks. With a VPC you have full control over the design of the network, as you control the creation of subnets, internet gateways (IGW), NAT gateways, VPN connections and more.  
 In a standard AWS account, you can have up to 5 VPCs. Many services, like, EC2, RDS and ECS require a VPC o be placed into. Therefore, when creating an account, a default VPC is also created.  When you create a VPC, you must assign a CIDR block. Choose your CIDR block and subnet mask carefully, as they have to allow for enough subnets and hosts and cannot be changed after creation.
 
 Subnets can be either public or private. The only difference is that private subnets do not have an entry for the internet gateway (igw) in their route table, where public subnets do. In other words, private subnets cannot access the internet without a NAT gateway or a NAT instance.
