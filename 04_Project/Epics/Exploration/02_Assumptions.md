@@ -10,7 +10,7 @@ It is needed to install an AWS Backup Gateway and connect it to the hypervisor s
 ### **Automate deployment of webserver.**
 Use EC2 user data to install all packages, configure them and deploy the appplication.
 ### **The admin/management server should be reachable with a public IP.**
-Configure security group rules to allow inbound IPv4 adresses using HTTP, HTTPS and SSH.  
+Configure security group rules to allow inbound IPv4 adresses using HTTP, HTTPS and SSH/RDP.  
 The admin server cannot be placed in a private subnet, since this does not allow public IP's to reach it.
 ### **The admin/management server should be only reachable from trusted locations (office/admin's home).**
 Configure the previously mentioned security group rules to only allow from the two trusted locations, both for SSH and for HTTP/HTTPS. So while reachable with a public IP adress, it can only be the public IP adress of one of the two trusted locations.
