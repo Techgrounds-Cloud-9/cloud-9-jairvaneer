@@ -8,6 +8,26 @@
 
 ____
 
+# Log 30/11/2022
+
+## One Sentence summary of the day
+
+## Challenges
+
+## Solutions
+
+____
+
+# Log 29/11/2022
+
+## One Sentence summary of the day
+Installed all the necessary components to start using AWS CDK.
+## Challenges
+Encountered a number of errors when trying to install CDK, CLI and Node.js
+## Solutions
+Took me quite a few hours, but after researching the problems thoroughly I was able to install the necessary programs and create a new directory for the CDK Project.
+____
+
 # Log 28/11/2022
 
 ## One Sentence summary of the day
