@@ -8,14 +8,34 @@
 
 ____
 
+# Log 02/12/2022
+
+## One Sentence summary of the day
+Defined the NetworkACL and started on the security groups.
+## Challenges
+Learning abbout the necessary properties for the NACL took some time.
+## Solutions
+Keeping notes on the information provided online gave me a clearer overview of the necessary properties and configurations.
+____
+
+# Log 01/12/2022
+
+## One Sentence summary of the day
+Succeeded in creating the Stack for the VPC's, started adding NetworkACL configuration.
+## Challenges
+The infrastructure for the assignment was stil a bit unclear.
+## Solutions
+We had our product owner meeting today and Shikha answered our questions on the infrastructure.
+____
+
 # Log 30/11/2022
 
 ## One Sentence summary of the day
-
+Started with creating the VPC for the infrastructure.
 ## Challenges
-
+Unnsure on how to use the CDK still.
 ## Solutions
-
+Learning by doing with regards to the AWS CDK.
 ____
 
 # Log 29/11/2022
