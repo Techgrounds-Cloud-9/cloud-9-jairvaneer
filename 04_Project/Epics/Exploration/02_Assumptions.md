@@ -15,8 +15,7 @@ The admin server cannot be placed in a private subnet, since this does not allow
 ### **The admin/management server should be only reachable from trusted locations (office/admin's home).**
 Configure the previously mentioned security group rules to only allow from the two trusted locations, both for SSH and for HTTP/HTTPS. So while reachable with a public IP adress, it can only be the public IP adress of one of the two trusted locations.
 ### **The following IP ranges are used: 10.10.10.0/24 & 10.20.20.0/24.**
-All other IP ranges should be excluded from accessing the admin server.
-Only one IP range is needed because we are only creating one VPC.
+One of these ranges is used for the PC containing the webserver, the other for the VPC containing the admin server.
 ### **All subnets need to be protected by a firewall at subnet level.**
 Configure an Network ACL, possibly with a different set of rules for each of the subnets. The subnet which holds the admin server should only allow traffic from the trusted locations. The subnet which holds the web server can be accessed with all public IP's as it is publicly available, but SSH and RDP can only come from admin server.
 ### **SSH or RDP connections to the server are only allowed from the admin server.**
