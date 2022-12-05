@@ -8,6 +8,16 @@
 
 ____
 
+# Log 05/12/2022
+
+## One Sentence summary of the day
+Finished the Stack containing the VPC's, Network ACL's and Security Groups
+## Challenges
+Specifying the exact inbound/outbound rules for the required protocols took longer than expected.
+## Solutions
+Asked for clarification on all relevant inbound/outbound requirements and finished the necessary rules.
+____
+
 # Log 02/12/2022
 
 ## One Sentence summary of the day
