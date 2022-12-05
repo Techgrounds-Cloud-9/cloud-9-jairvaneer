@@ -27,3 +27,14 @@ server encryption
 
 s3 bucket did not get destroyed
 look out for resources not being destroyed
+
+
+what ports need to be open??
+webserver outbound doesnt matter
+webserver inbound http https from everywhere, rdp ssh from adminserver
+admin outbound https no, http yes, rdp and ssh
+inbound ssh rdp http
+icmp no
+
+
+IPv6?
