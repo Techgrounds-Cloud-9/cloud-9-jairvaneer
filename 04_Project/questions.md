@@ -38,3 +38,5 @@ icmp no
 
 
 IPv6?
+multiple classes in one stack
+static IP for servers - easier
