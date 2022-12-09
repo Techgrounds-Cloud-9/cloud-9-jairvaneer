@@ -1,4 +1,4 @@
-# What assumptions have we made?
+# What assumptions have I made?
 ### **All VM disks need to be encrypted.**
 In order to encrypt a VM (EC2 instance) we need to encrypt the EBS volume attached to the EC2 instance, or create the EC2 instance from an encrypted snapshot.
 ### **The webserver needs daily back-ups. These back-ups need to be saved for 7 days.**
