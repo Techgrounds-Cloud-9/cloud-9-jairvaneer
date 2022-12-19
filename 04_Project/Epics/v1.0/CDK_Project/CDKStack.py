@@ -299,12 +299,12 @@ class CDKStack(Stack):
             description= "allow RDP access from admin IPv4 adress"
         )
         Adminserver_SG.add_ingress_rule(
-            peer= ec2.Peer.ipv6(), 
+            peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(3389), 
             description= "allow RDP access from admin IPv6 adress"
         )        
         Adminserver_SG.add_ingress_rule(
-            peer= ec2.Peer.ipv6(), 
+            peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(22), 
             description= "allow SSH access from admin IPv6 adress"
         )
