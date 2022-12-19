@@ -1,5 +1,5 @@
 """
-CDK-Project V1.0
+CDK-Project V1.1
 
 Infrastructure requirements:
 1 Region
@@ -8,11 +8,17 @@ Infrastructure requirements:
 VPC Peering Connection
 
 VPC Webserver:                   
-    2 public subnets (10.10.10.0/24)                   
+    1 public subnets, 3 private subnets (10.10.10.0/24)
+    Using ALB as load balancer and as proxy
+    ALB also changes HTTP connections to HTTPS with TLS 1.2 or better, need for Cerftificate manager
+    1 EC2 Instance (Linux) in private subnet, ALB in public subnet replacing webserver v1.0 -> no public IP
+    Auto-scaling group for private subnets, max 3 webservers
+    AMI new VM's from snapshot current webserver
     1 Network ACL allowing HTTP/HTTPS from everywhere, SSH from admin server
-    1 EC2 Instance (Linux) with website placed in subnet eu-central-1a
+    
     1 Webserver Security Group
     Daily backup with 7 days retention
+    Schedule Health Checks -> failing leads to auto recovery
 
 VPC Adminserver
     2 public subnets (10.20.20.0/24)
