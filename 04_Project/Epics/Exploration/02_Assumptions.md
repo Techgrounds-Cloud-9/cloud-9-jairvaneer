@@ -1,6 +1,6 @@
 # What assumptions have I made?
 ### **All VM disks need to be encrypted.**
-In order to encrypt a VM (EC2 instance) we need to encrypt the EBS volume attached to the EC2 instance, or create the EC2 instance from an encrypted snapshot.
+In order to encrypt a VM (EC2 instance) we need to encrypt the EBS volume attached to the EC2 instance, or create the EC2 instance from an encrypted snapshot. This requires use of the KMS.
 ### **The webserver needs daily back-ups. These back-ups need to be saved for 7 days.**
 Configure AWS Back Ups with a custom back up plan that takes a daily back up of the web server and place this in a back up vault. Possibly needed to create our own back up vault.  
 The back up should be automatically deleted after 7 days. This is done under retention management.  
