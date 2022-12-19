@@ -8,17 +8,17 @@ Infrastructure requirements:
 VPC Peering Connection
 
 VPC Webserver:                   
-    1 public subnets, 3 private subnets (10.10.10.0/24)
+    1 public subnets, 1 private subnets (10.10.10.0/24)
     Using ALB as load balancer and as proxy
-    ALB also changes HTTP connections to HTTPS with TLS 1.2 or better, need for Cerftificate manager
+    ALB also changes HTTP connections to HTTPS with TLS 1.2 or better
+    Certificate Manager is needed for HTTPS certificates
+    ALB also takes care of the Health Checks of the instances.
     1 EC2 Instance (Linux) in private subnet, ALB in public subnet replacing webserver v1.0 -> no public IP
     Auto-scaling group for private subnets, max 3 webservers
     AMI new VM's from snapshot current webserver
     1 Network ACL allowing HTTP/HTTPS from everywhere, SSH from admin server
-    
-    1 Webserver Security Group
+    1 Application Load Balancer Security Group, as this is internet-facing
     Daily backup with 7 days retention
-    Schedule Health Checks -> failing leads to auto recovery
 
 VPC Adminserver
     2 public subnets (10.20.20.0/24)
@@ -49,6 +49,8 @@ from aws_cdk import (
     aws_s3 as S3,
     aws_s3_deployment as s3deploy,
     aws_kms as kms,
+    aws_elasticloadbalancingv2 as elbv2,
+    aws_autoscaling as autoscaling,
     aws_events as event,
     RemovalPolicy,
     Duration,
@@ -61,6 +63,9 @@ from aws_cdk import (
 from constructs import Construct
 from aws_cdk.aws_events import Schedule
 from aws_cdk.aws_s3_assets import Asset
+from aws_cdk.aws_elasticloadbalancingv2 import SslPolicy
+from aws_cdk.aws_autoscaling import AutoScalingGroup
+
 
 # Stack
 
@@ -69,7 +74,7 @@ class CDKStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
 
-        ############### Create 2 VPC's & VPC Peering ###############
+        ############### Create 2 VPC's ###############
 
         # VPC 1 - Webserver VPC
 
@@ -79,15 +84,7 @@ class CDKStack(Stack):
             ip_addresses=ec2.IpAddresses.cidr("10.10.10.0/24"),
             vpc_name="WebserverVPC",
             availability_zones=["eu-central-1a", "eu-central-1b"],
-            nat_gateways=0,
-            # Configure 1 subnet in each AZ 
-            subnet_configuration=[
-                ec2.SubnetConfiguration(
-                    name="public_subnet", 
-                    cidr_mask=25, 
-                    subnet_type=ec2.SubnetType.PUBLIC
-                    )
-            ]
+            nat_gateways=1
         )
 
         # VPC 2 - Adminserver VPC
@@ -98,17 +95,17 @@ class CDKStack(Stack):
             ip_addresses=ec2.IpAddresses.cidr("10.20.20.0/24"),
             vpc_name="AdminserverVPC",
             availability_zones=["eu-central-1a", "eu-central-1b"],
-            nat_gateways=0,
-            # Configure 1 subnet in each AZ
+            nat_gateways=0, 
             subnet_configuration=[
                 ec2.SubnetConfiguration(
                     name="public_subnet", 
                     cidr_mask=25, 
-                    subnet_type=ec2.SubnetType.PUBLIC),
+                    subnet_type=ec2.SubnetType.PUBLIC
+                )
             ]
         )
 
-        # VPC Peering
+        ############### VPC Peering ###############
 
         VPC_Peering_Connection=ec2.CfnVPCPeeringConnection(
             self, 
@@ -117,17 +114,8 @@ class CDKStack(Stack):
             vpc_id=VPC1.vpc_id,
         )
         
-        # VPC Peering connection from VPC2 to VPC1 through Route Table 
 
-        Admin_to_Web_Route=ec2.CfnRoute(
-            self,
-            "Admin_to_Web_Route",
-            route_table_id=VPC2.public_subnets[1].route_table.route_table_id,
-            destination_cidr_block=VPC1.vpc_cidr_block,
-            vpc_peering_connection_id=VPC_Peering_Connection.ref,
-        )
-
-        # VPC Peering connection from VPC1 to VPC2 through Route Table 
+                # VPC Peering connection from VPC1 to VPC2 through Route Table 
 
         Web_to_Admin_Route=ec2.CfnRoute(
             self,
@@ -137,6 +125,15 @@ class CDKStack(Stack):
             vpc_peering_connection_id=VPC_Peering_Connection.ref,
         )
 
+        # VPC Peering connection from VPC2 to VPC1 through Route Table 
+
+        Admin_to_Web_Route=ec2.CfnRoute(
+            self,
+            "Admin_to_Web_Route",
+            route_table_id=VPC2.public_subnets[1].route_table.route_table_id,
+            destination_cidr_block=VPC1.vpc_cidr_block,
+            vpc_peering_connection_id=VPC_Peering_Connection.ref,
+        )
 
         ############## Network ACL's ###############
 
@@ -160,35 +157,35 @@ class CDKStack(Stack):
         )
         NACL1.add_entry("Allow_All_Ingress_IPv6_HTTP_to_Webserver",
             cidr= ec2.AclCidr.any_ipv6(),
-            rule_number= 140,
+            rule_number= 110,
             traffic= ec2.AclTraffic.tcp_port(80),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
         NACL1.add_entry("Allow_All_Ingress_IPv4_HTTPS_to_Webserver",
             cidr= ec2.AclCidr.any_ipv4(),
-            rule_number= 110,
+            rule_number= 120,
             traffic= ec2.AclTraffic.tcp_port(443),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
         NACL1.add_entry("Allow_All_Ingress_IPv6_HTTPS_to_Webserver",
             cidr= ec2.AclCidr.any_ipv6(),
-            rule_number= 110,
+            rule_number= 130,
             traffic= ec2.AclTraffic.tcp_port(443),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
         NACL1.add_entry("Allow_Ingress_SSH_from_Adminserver",
             cidr= ec2.AclCidr.ipv4("10.20.20.128/25"),
-            rule_number= 120,
+            rule_number= 140,
             traffic= ec2.AclTraffic.tcp_port(22),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )                        
         NACL1.add_entry("Allow_Ingress_Ephemeral",
             cidr=ec2.AclCidr.any_ipv4(),
-            rule_number=130,
+            rule_number=150,
             traffic= ec2.AclTraffic.tcp_port_range(1024, 65535),
             direction=ec2.TrafficDirection.INGRESS, 
             rule_action=ec2.Action.ALLOW,
@@ -250,36 +247,36 @@ class CDKStack(Stack):
 
         ############### Security Groups ###############
 
-        # Security Group Webserver
+        # Security Group Application Load Balancer
 
-        Webserver_SG = ec2.SecurityGroup(
+        ALB_SG = ec2.SecurityGroup(
             self, 
-            "Webserver_Security_Group",
+            "Application_Load_Balancer_Security_Group",
             vpc= VPC1,
-            description= "Security group of the Webserver",
+            description= "Security group of the Application Load Balancer",
             allow_all_outbound=True
         )
-        Webserver_SG.add_ingress_rule(
+        ALB_SG.add_ingress_rule(
             peer= ec2.Peer.any_ipv4(), 
             connection= ec2.Port.tcp(80), 
             description= "allow IPv4 HTTP access from the world"
         )
-        Webserver_SG.add_ingress_rule(
+        ALB_SG.add_ingress_rule(
             peer= ec2.Peer.any_ipv4(), 
             connection= ec2.Port.tcp(443), 
             description= "allow IPv4 HTTPS acccess from the world"
         )
-        Webserver_SG.add_ingress_rule(
+        ALB_SG.add_ingress_rule(
             peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(80), 
             description= "allow IPv6 HTTP acccess from the world"
         )
-        Webserver_SG.add_ingress_rule(
+        ALB_SG.add_ingress_rule(
             peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(443), 
             description= "allow IPv6 HTTPS acccess from the world"
         )
-        Webserver_SG.add_ingress_rule(
+        ALB_SG.add_ingress_rule(
             peer= ec2.Peer.ipv4("10.20.20.128/25"), 
             connection= ec2.Port.tcp(22), 
             description= "allow SSH access from Admin Server IP adress"
@@ -392,10 +389,10 @@ class CDKStack(Stack):
             instance_type=ec2.InstanceType("t2.micro"),
             machine_image=ec2.AmazonLinuxImage(),
             vpc=VPC1,
-            availability_zone="eu-central-1a",
+            availability_zone="eu-central-1b",
             instance_name="Webserver_Instance",
             role=S3_Access_role,
-            security_group=Webserver_SG,
+            security_group=ALB_SG,
             key_name="Web_Keypair",
             block_devices=[
                 ec2.BlockDevice(
@@ -437,7 +434,61 @@ class CDKStack(Stack):
             ]
         )
 
-        # ############### S3 Bucket ###############
+        ############### Auto-Scaling Group ###############
+
+        # Create auto-scaling group
+        ASG= autoscaling.AutoScalingGroup(
+            self, 
+            "ASG",
+            vpc=VPC1,
+            instance_type= ec2.InstanceType("t2.micro"),
+            machine_image=ec2.AmazonLinuxImage(),
+            role=S3_Access_role,
+            security_group=ALB_SG,
+            min_capacity= 1,
+            max_capacity= 3,
+            health_check=autoscaling.HealthCheck.elb(
+            grace=cdk.Duration.seconds(0)
+            ),
+            key_name="Web_Keypair"
+        )
+
+        ############### VPC1 Application Load Balancer ###############
+
+        ALB=elbv2.ApplicationLoadBalancer(
+            self,
+            'ALB',
+            vpc=VPC1,
+            internet_facing=True,
+            security_group=ALB_SG,
+        )
+
+        listener_certificate=elbv2.ListenerCertificate.from_arn(
+            
+            )
+
+        #Listener
+        # listener= ALB.add_listener(
+        #     'Listener',
+        #     port=443,
+        #     certificate= [Certificate],
+        # )
+
+        # listener.add_targets(
+        #     # 'ASG',
+        #     # targets=[ASG],
+        #     # health_check=elbv2.HealthCheck(
+        #     #     path='/ping',
+        #     #     interval= Duration.minutes(1)
+        #     # )
+        # )
+        ALB.add_redirect(
+            source_protocol= elbv2.ApplicationProtocol.HTTP,
+            source_port=80,
+            target_protocol=elbv2.ApplicationProtocol.HTTPS,
+            target_port=443,
+        )
+        ############### S3 Bucket ###############
 
         # Create S3 bucket for bootstrap script
 
