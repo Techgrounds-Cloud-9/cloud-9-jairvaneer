@@ -7,6 +7,8 @@ ____
 ## Challenges
 
 ## Solutions
+
+
 ____
 
 # Log [date]
@@ -16,6 +18,47 @@ ____
 ## Challenges
 
 ## Solutions
+
+____
+
+# Log [date]
+
+## One Sentence summary of the day
+
+## Challenges
+
+## Solutions
+
+____
+
+# Log [date]
+
+## One Sentence summary of the day
+
+## Challenges
+
+## Solutions
+
+____
+
+# Log 19/12/2022
+
+## One Sentence summary of the day
+Started V1.1 documentation and stack.
+## Challenges
+How to implement the demands of the client.
+## Solutions
+Researching the AWS services that can be used to fulfill the demands and crreate the desired infrastructure.
+____
+
+# Log 16/12/2022
+
+## One Sentence summary of the day
+Finished V1.0, except one minor detail.
+## Challenges
+How to make an SSH connecting from the Admin server to the Web server without storing the private access keys on the admin server?
+## Solutions
+T.B.D. Currently looking into data transfer via RDP, where I can read data stored on the local machine without storing it on the admin server.
 ____
 
 # Log 15/12/2022
@@ -40,10 +83,11 @@ ____
 # Log 13/12/2022
 
 ## One Sentence summary of the day
-
+Fixed the run problem, currently working out the kinks in the Network ACL.
 ## Challenges
-
+Not able to make connections to the Admin server via ssh/rdp when using the Network ACL, despite having configured ports 22 (SSH) and 3389 (RDP).
 ## Solutions
+Opening up the ephemeral ports (1054, 65535) solved the problem.
 ____
 
 # Log 12/12/2022
@@ -53,7 +97,7 @@ Working on an EC2 run problem.
 ## Challenges
 Found that the Ec2 webserver instance kept on stopping instead of running smoothly.
 ## Solutions
-First, commented everything in the stack but the VPC and the Instances and deployed. This showed the instances running successfully, so then I started destroying the app, adding a component to the stack by uncommenting it, and the redeploying. By methodically ruling out components of the infrastructure that were connected to the instance, I found oout the problem was the EBS Block Device.
+First, commented everything in the stack but the VPC and the Instances and deployed. This showed the instances running successfully, so then I started destroying the app, adding a component to the stack by uncommenting it, and the redeploying. By methodically ruling out components of the infrastructure that were connected to the instance, I found out the problem was the EBS Block Device.
 ____
 
 # Log 09/12/2022
