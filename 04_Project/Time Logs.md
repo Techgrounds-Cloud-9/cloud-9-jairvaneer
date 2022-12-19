@@ -1,3 +1,5 @@
+____
+
 # Log [date]
 
 ## One Sentence summary of the day
@@ -5,7 +7,94 @@
 ## Challenges
 
 ## Solutions
+____
 
+# Log [date]
+
+## One Sentence summary of the day
+
+## Challenges
+
+## Solutions
+____
+
+# Log 15/12/2022
+
+## One Sentence summary of the day
+Final tests, creating a PostDeploymentScript Bucket and seeing everything runs smoothly, working on documentation.
+## Challenges
+
+## Solutions
+____
+
+# Log 14/12/2022
+
+## One Sentence summary of the day
+Working on the last few components of the infrastructure.
+## Challenges
+Problems with UserData and Ephemeral Ports for the Network ACL.
+## Solutions
+Created Ingress/Egress rules for the Ephemeral Ports and rewrote the user data for the webserver.
+____
+
+# Log 13/12/2022
+
+## One Sentence summary of the day
+
+## Challenges
+
+## Solutions
+____
+
+# Log 12/12/2022
+
+## One Sentence summary of the day
+Working on an EC2 run problem.
+## Challenges
+Found that the Ec2 webserver instance kept on stopping instead of running smoothly.
+## Solutions
+First, commented everything in the stack but the VPC and the Instances and deployed. This showed the instances running successfully, so then I started destroying the app, adding a component to the stack by uncommenting it, and the redeploying. By methodically ruling out components of the infrastructure that were connected to the instance, I found oout the problem was the EBS Block Device.
+____
+
+# Log 09/12/2022
+
+## One Sentence summary of the day
+Presented on progress.
+## Challenges
+How to portray my progress in a clear and concise manner?
+## Solutions
+By having clear documentation on my progress (Time Logs), the demands and assumtions made at the start of the project, and by having a clear structure in the code stack.
+____
+
+# Log 08/12/2022
+
+## One Sentence summary of the day
+Worked on the userdata script.
+## Challenges
+How to add the user data script to the bucket.
+## Solutions
+By creating a seperate folder in the the cdkproject directory and placing the userdata.sh file in there, and then specifying the path to it, I was able to add the userdata to the bucket.
+____
+
+
+# Log 07/12/2022
+
+## One Sentence summary of the day
+Today I started with working on the VPC Peering, as I needed some time to think about the user data scripts
+## Challenges
+I was unsuccesfull in finding a way to get the userdata read from the S3 bucket. I tried putting it in as a .zip file, but was informed that that was not the solution during the scrum master meeting.
+## Solutions
+
+____
+
+# Log 06/12/2022
+
+## One Sentence summary of the day
+Started working on the S3 bucket
+## Challenges
+How to configure the S3 bucket as wanted, and how to get the user data script in there.
+## Solutions
+The bucket configuration is successfull, User data scripts is for another day.
 ____
 
 # Log 05/12/2022
