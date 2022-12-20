@@ -31,14 +31,14 @@ ____
 
 ____
 
-# Log [date]
+# Log 20/12/2022
 
 ## One Sentence summary of the day
-
+Started with Auto Scaling Group and Application Load Balancer.
 ## Challenges
-
+Should the ASG replace the webserver, and should the instance scale horizontally in multiple AZ's to increase failover security?
 ## Solutions
-
+No solutions yet, probably trying out whether it is achievable to scale over multiple AZ's without rising costs.
 ____
 
 # Log 19/12/2022
