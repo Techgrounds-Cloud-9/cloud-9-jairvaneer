@@ -446,7 +446,7 @@ class CDKStack(Stack):
             role=S3_Access_role,
             security_group=ALB_SG,
             min_capacity= 1,
-            max_capacity= 3,
+            max_capacity= 2,
             health_check=autoscaling.HealthCheck.elb(
             grace=cdk.Duration.seconds(0)
             ),
@@ -463,9 +463,9 @@ class CDKStack(Stack):
             security_group=ALB_SG,
         )
 
-        listener_certificate=elbv2.ListenerCertificate.from_arn(
+        # listener_certificate=elbv2.ListenerCertificate.from_arn(
             
-            )
+        #     )
 
         #Listener
         # listener= ALB.add_listener(
@@ -531,6 +531,15 @@ class CDKStack(Stack):
             file_path=script_path
         )
 
+        script_path=ASG.user_data.add_s3_download_command(
+            bucket=scriptbucket,
+            bucket_key="userdata.sh"
+        )
+
+        ASG.user_data.add_execute_file_command(
+            file_path=script_path
+        )
+
         # ############### Backup Policies ###############
 
 
@@ -567,7 +576,7 @@ class CDKStack(Stack):
                 rule_name="Daily_Backup_7_Day_Retention",
                 schedule_expression=Schedule.cron(
                     week_day="*",
-                    hour="17",
+                    hour="00",
                     minute="0"
                     ),
                 delete_after=Duration.days(7),
