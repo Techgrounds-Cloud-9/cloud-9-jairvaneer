@@ -33,28 +33,28 @@ Backup Vault for webserver data retention
 # Importing the necessary libraries 
 
 
-from  urllib import response
+# from  urllib import response
 import aws_cdk as cdk
 from aws_cdk import (
     aws_ec2 as ec2, 
-    aws_iam as iam, 
+    # aws_iam as iam, 
     aws_backup as backup,
-    aws_ssm as ssm,
+    # aws_ssm as ssm,
     aws_s3 as S3,
     aws_s3_deployment as s3deploy,
     aws_kms as kms,
-    aws_events as event,
+    # aws_events as event,
     RemovalPolicy,
     Duration,
-    CfnOutput,
-    App,
-    Tags,
+    # CfnOutput,
+    # App,
+    # Tags,
     Stack
 )
 
 from constructs import Construct
 from aws_cdk.aws_events import Schedule
-from aws_cdk.aws_s3_assets import Asset
+# from aws_cdk.aws_s3_assets import Asset
 
 # Stack
 
@@ -154,48 +154,62 @@ class CDKStack(Stack):
         )
         NACL1.add_entry("Allow_All_Ingress_IPv6_HTTP_to_Webserver",
             cidr= ec2.AclCidr.any_ipv6(),
-            rule_number= 140,
+            rule_number= 110,
             traffic= ec2.AclTraffic.tcp_port(80),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
         NACL1.add_entry("Allow_All_Ingress_IPv4_HTTPS_to_Webserver",
             cidr= ec2.AclCidr.any_ipv4(),
-            rule_number= 110,
+            rule_number= 120,
             traffic= ec2.AclTraffic.tcp_port(443),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
         NACL1.add_entry("Allow_All_Ingress_IPv6_HTTPS_to_Webserver",
             cidr= ec2.AclCidr.any_ipv6(),
-            rule_number= 110,
+            rule_number= 130,
             traffic= ec2.AclTraffic.tcp_port(443),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
         NACL1.add_entry("Allow_Ingress_SSH_from_Adminserver",
             cidr= ec2.AclCidr.ipv4("10.20.20.128/25"),
-            rule_number= 120,
+            rule_number= 140,
             traffic= ec2.AclTraffic.tcp_port(22),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )                        
-        NACL1.add_entry("Allow_Ingress_Ephemeral",
+        NACL1.add_entry("Allow_Ingress_Ephemeral_IPv4",
             cidr=ec2.AclCidr.any_ipv4(),
-            rule_number=130,
+            rule_number=150,
             traffic= ec2.AclTraffic.tcp_port_range(1024, 65535),
             direction=ec2.TrafficDirection.INGRESS, 
             rule_action=ec2.Action.ALLOW,
         )
-        NACL1.add_entry("Allow_All_Egress",
+        NACL1.add_entry("Allow_Ingress_Ephemeral_IPv6",
+            cidr=ec2.AclCidr.any_ipv6(),
+            rule_number=160,
+            traffic= ec2.AclTraffic.tcp_port_range(1024, 65535),
+            direction=ec2.TrafficDirection.INGRESS, 
+            rule_action=ec2.Action.ALLOW,
+        )
+        NACL1.add_entry("Allow_All_Egress_IPv4",
             cidr=ec2.AclCidr.any_ipv4(),
             rule_number=100,
             traffic= ec2.AclTraffic.all_traffic(),
             direction=ec2.TrafficDirection.EGRESS, 
             rule_action=ec2.Action.ALLOW,
         )
+        NACL1.add_entry("Allow_All_Egress_Ipv6",
+            cidr=ec2.AclCidr.any_ipv6(),
+            rule_number=110,
+            traffic= ec2.AclTraffic.all_traffic(),
+            direction=ec2.TrafficDirection.EGRESS, 
+            rule_action=ec2.Action.ALLOW,
+        )
 
-        # # Network ACL Admin Server
+        # Network ACL Admin Server
 
         NACL2 = ec2.NetworkAcl(
             self, 
@@ -309,30 +323,6 @@ class CDKStack(Stack):
             description= "allow SSH access from admin IPv6 adress"
         )
 
-        # ############### Roles & Policies ###############
-
-        # Instance role and SSM Managed Policy in order for SSH connection
-
-        SSM_role=iam.Role(
-            self,  
-            "InstanceSSM",
-            assumed_by=iam.ServicePrincipal("ec2.amazonaws.com")
-        )
-        SSM_role.add_managed_policy(
-            iam.ManagedPolicy.from_aws_managed_policy_name(
-                "AmazonSSMManagedInstanceCore"
-            )
-        )
-        # Instance Role for S3 read access
-
-        S3_Access_role = iam.Role(
-            self, 'S3_Access_role',
-            assumed_by=iam.ServicePrincipal('ec2.amazonaws.com'),
-            managed_policies=[
-                iam.ManagedPolicy.from_aws_managed_policy_name('AmazonS3ReadOnlyAccess')
-                ],
-        )
-
         ############### Key Pair ###############
 
         # Key Pair Webserver
@@ -341,7 +331,6 @@ class CDKStack(Stack):
             self,
             "Web_Keypair",
             key_name="Web_Keypair",
-            tags=[{"key":"name", "value":"web-key"}]
         )
 
         # Key Pair Admin Server
@@ -350,16 +339,10 @@ class CDKStack(Stack):
             self,
             "Admin_Keypair",
             key_name="Admin_Keypair",
-            tags=[{"key":"name", "value":"admin-key"}]
         )
 
         ############### Key Management Service ###############
 
-        Bucket_Key=kms.Key(self, "Bucket_Key",
-            enable_key_rotation=True,
-            alias="Bucket_Key",
-            removal_policy=RemovalPolicy.DESTROY
-            )
         EBS_Admin_Key=kms.Key(self, "EBS_Admin_Key",
             enable_key_rotation = True,
             alias="EBS_Admin_Key",
@@ -376,7 +359,7 @@ class CDKStack(Stack):
             removal_policy=RemovalPolicy.DESTROY
             )
 
-        # ############### EC2 Instances ###############
+        ############### EC2 Instances ###############
 
         # Instance: Web server (Linux)
 
@@ -388,7 +371,6 @@ class CDKStack(Stack):
             vpc=VPC1,
             availability_zone="eu-central-1a",
             instance_name="Webserver_Instance",
-            role=S3_Access_role,
             security_group=Webserver_SG,
             key_name="Web_Keypair",
             block_devices=[
@@ -404,7 +386,7 @@ class CDKStack(Stack):
             ]
         )
 
-        # # Instance2: Admin server
+        # Instance2: Admin server
 
         Instance2=ec2.Instance(
             self, 
@@ -415,7 +397,6 @@ class CDKStack(Stack):
             vpc=VPC2,
             availability_zone="eu-central-1b",
             instance_name= "Adminserver_Instance",
-            role=SSM_role,
             security_group=Adminserver_SG,
             key_name="Admin_Keypair",
             block_devices=[
@@ -431,7 +412,7 @@ class CDKStack(Stack):
             ]
         )
 
-        # ############### S3 Bucket ###############
+        ############### S3 Bucket ###############
 
         # Create S3 bucket for bootstrap script
 
@@ -444,7 +425,7 @@ class CDKStack(Stack):
             auto_delete_objects=True
         )
 
-        # Put cdkproject folder in S3 bucket
+        # Put userdata.sh from Script folder in S3 bucket
 
         s3deploy.BucketDeployment(
             self, 
@@ -453,17 +434,11 @@ class CDKStack(Stack):
             sources=[s3deploy.Source.asset("./Scripts")]
         )
 
-        # Allow EC2 instances to get files from the bucket
+        # Allow EC2 instance to get files from the bucket
 
-        scriptbucket.add_to_resource_policy(
-            iam.PolicyStatement(
-                effect=iam.Effect.ALLOW,
-                principals=[iam.ServicePrincipal("ec2.amazonaws.com")],
-                actions=["s3:GetObject"],
-                resources=[f"{scriptbucket.bucket_arn}/*"])
-        )
+        scriptbucket.grant_read(Instance1.role)
 
-        # ############### Script Launch ##############
+        ############### Script Launch ##############
 
         script_path=Instance1.user_data.add_s3_download_command(
             bucket=scriptbucket,
@@ -474,10 +449,8 @@ class CDKStack(Stack):
             file_path=script_path
         )
 
-        # ############### Backup Policies ###############
+        ############### Backup Policies ###############
 
-
-        # Backup Webserver
         # Create Backup Vault
 
         webservervault=backup.BackupVault(
@@ -499,10 +472,10 @@ class CDKStack(Stack):
         webserverplan.add_selection("Selection",
         resources=[
             backup.BackupResource.from_ec2_instance(Instance1)
-        ]
+            ]
         )
 
-        # Add Backup Rule: each day at 00:00 with 7 days retention
+        # Add Backup Rule: each day at 17:00 with 7 days retention
 
         webserverplan.add_rule(
             backup.BackupPlanRule(
@@ -510,7 +483,7 @@ class CDKStack(Stack):
                 rule_name="Daily_Backup_7_Day_Retention",
                 schedule_expression=Schedule.cron(
                     week_day="*",
-                    hour="17",
+                    hour="0",
                     minute="0"
                     ),
                 delete_after=Duration.days(7),
