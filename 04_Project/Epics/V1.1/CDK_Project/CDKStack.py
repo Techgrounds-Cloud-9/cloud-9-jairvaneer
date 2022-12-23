@@ -84,7 +84,21 @@ class CDKStack(Stack):
             ip_addresses=ec2.IpAddresses.cidr("10.10.10.0/24"),
             vpc_name="WebserverVPC",
             availability_zones=["eu-central-1a", "eu-central-1b"],
-            nat_gateways=1
+            nat_gateway_subnets=ec2.SubnetSelection(
+                subnet_group_name="public_subnet"
+            ), 
+            subnet_configuration=[
+                ec2.SubnetConfiguration(
+                    name="public_subnet", 
+                    cidr_mask=26, 
+                    subnet_type=ec2.SubnetType.PUBLIC
+                ),
+                ec2.SubnetConfiguration(
+                    name="private_subnet", 
+                    cidr_mask=26, 
+                    subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS
+                ),
+            ]
         )
 
         # VPC 2 - Adminserver VPC
@@ -134,6 +148,28 @@ class CDKStack(Stack):
             destination_cidr_block=VPC1.vpc_cidr_block,
             vpc_peering_connection_id=VPC_Peering_Connection.ref,
         )
+# self.cfn_VPCPeering_connection =ec2.CfnVPCPeeringConnection(self, "VPC peering connection",
+#             peer_vpc_id = AdminVPC.vpc_id,
+#             vpc_id = WebVPC.vpc_id,
+
+#             # the properties below are optional
+#             peer_region='eu-central-1',
+#             )
+
+#         # Update Route Tables for Peering Connection
+#         route_table_web_entry = ec2.CfnRoute(
+#             self, 'VPC-Web Peer Route100',
+#             route_table_id=WebVPC.public_subnets[0].route_table.route_table_id,
+#             destination_cidr_block='10.20.20.0/24',
+#             vpc_peering_connection_id=self.cfn_VPCPeering_connection.attr_id,
+#         )
+
+#         route_table_admin_entry = ec2.CfnRoute(
+#             self, 'VPC-admin Peer Route100',
+#             route_table_id=WebVPC.public_subnets[1].route_table.route_table_id,
+#             destination_cidr_block='10.10.10.0/24',
+#             vpc_peering_connection_id=self.cfn_VPCPeering_connection.attr_id,
+#         )
 
         ############## Network ACL's ###############
 
@@ -183,15 +219,29 @@ class CDKStack(Stack):
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )                        
-        NACL1.add_entry("Allow_Ingress_Ephemeral",
+        NACL1.add_entry("Allow_Ingress_Ephemeral_Ipv6",
             cidr=ec2.AclCidr.any_ipv4(),
             rule_number=150,
             traffic= ec2.AclTraffic.tcp_port_range(1024, 65535),
             direction=ec2.TrafficDirection.INGRESS, 
             rule_action=ec2.Action.ALLOW,
+        )       
+        NACL1.add_entry("Allow_Ingress_Ephemeral_IPv6",
+            cidr=ec2.AclCidr.any_ipv6(),
+            rule_number=160,
+            traffic= ec2.AclTraffic.tcp_port_range(1024, 65535),
+            direction=ec2.TrafficDirection.INGRESS, 
+            rule_action=ec2.Action.ALLOW,
         )
-        NACL1.add_entry("Allow_All_Egress",
+        NACL1.add_entry("Allow_All_Egress_Ipv4",
             cidr=ec2.AclCidr.any_ipv4(),
+            rule_number=100,
+            traffic= ec2.AclTraffic.all_traffic(),
+            direction=ec2.TrafficDirection.EGRESS, 
+            rule_action=ec2.Action.ALLOW,
+        )
+        NACL1.add_entry("Allow_All_Egress_IPv6",
+            cidr=ec2.AclCidr.any_ipv6(),
             rule_number=100,
             traffic= ec2.AclTraffic.all_traffic(),
             direction=ec2.TrafficDirection.EGRESS, 
@@ -312,29 +362,29 @@ class CDKStack(Stack):
             description= "allow SSH access from admin IPv6 adress"
         )
 
-        # ############### Roles & Policies ###############
+        # # ############### Roles & Policies ###############
 
-        # Instance role and SSM Managed Policy in order for SSH connection
+        # # Instance role and SSM Managed Policy in order for SSH connection
 
-        SSM_role=iam.Role(
-            self,  
-            "InstanceSSM",
-            assumed_by=iam.ServicePrincipal("ec2.amazonaws.com")
-        )
-        SSM_role.add_managed_policy(
-            iam.ManagedPolicy.from_aws_managed_policy_name(
-                "AmazonSSMManagedInstanceCore"
-            )
-        )
-        # Instance Role for S3 read access
+        # SSM_role=iam.Role(
+        #     self,  
+        #     "InstanceSSM",
+        #     assumed_by=iam.ServicePrincipal("ec2.amazonaws.com")
+        # )
+        # SSM_role.add_managed_policy(
+        #     iam.ManagedPolicy.from_aws_managed_policy_name(
+        #         "AmazonSSMManagedInstanceCore"
+        #     )
+        # )
+        # # Instance Role for S3 read access
 
-        S3_Access_role = iam.Role(
-            self, 'S3_Access_role',
-            assumed_by=iam.ServicePrincipal('ec2.amazonaws.com'),
-            managed_policies=[
-                iam.ManagedPolicy.from_aws_managed_policy_name('AmazonS3ReadOnlyAccess')
-                ],
-        )
+        # S3_Access_role = iam.Role(
+        #     self, 'S3_Access_role',
+        #     assumed_by=iam.ServicePrincipal('ec2.amazonaws.com'),
+        #     managed_policies=[
+        #         iam.ManagedPolicy.from_aws_managed_policy_name('AmazonS3ReadOnlyAccess')
+        #         ],
+        # )
 
         ############### Key Pair ###############
 
@@ -344,7 +394,6 @@ class CDKStack(Stack):
             self,
             "Web_Keypair",
             key_name="Web_Keypair",
-            tags=[{"key":"name", "value":"web-key"}]
         )
 
         # Key Pair Admin Server
@@ -353,16 +402,10 @@ class CDKStack(Stack):
             self,
             "Admin_Keypair",
             key_name="Admin_Keypair",
-            tags=[{"key":"name", "value":"admin-key"}]
         )
 
         ############### Key Management Service ###############
 
-        Bucket_Key=kms.Key(self, "Bucket_Key",
-            enable_key_rotation=True,
-            alias="Bucket_Key",
-            removal_policy=RemovalPolicy.DESTROY
-            )
         EBS_Admin_Key=kms.Key(self, "EBS_Admin_Key",
             enable_key_rotation = True,
             alias="EBS_Admin_Key",
@@ -379,35 +422,75 @@ class CDKStack(Stack):
             removal_policy=RemovalPolicy.DESTROY
             )
 
-        # ############### EC2 Instances ###############
+        ############### Launch Template ###############
 
-        # Instance: Web server (Linux)
+        # asg_launch_temp=ec2.LaunchTemplate(
+        #     self,
+        #     "Launch Template",
+        #     # launch_template_name="webserver_template",
+        #     instance_type= ec2.InstanceType("t2.micro"),
+        #     machine_image=ec2.AmazonLinuxImage(),
+        #     role=role,
+        #     user_data=ec2.UserData.for_linux(),
+        #     security_group=ALB_SG,
+        #     key_name="Web_Keypair",
+        #     block_devices=[
+        #         ec2.BlockDevice(
+        #             device_name="/dev/xvda",
+        #             volume=ec2.BlockDeviceVolume.ebs(
+        #                 30, 
+        #                 encrypted=True,
+        #                 kms_key=EBS_Web_Key,
+        #                 delete_on_termination=True
+        #             )
+        #         )
+        #     ]
+        # )
 
-        Instance1=ec2.Instance(
+        ############### Auto-Scaling Group ###############
+
+        # Create auto-scaling group
+        ASG= autoscaling.AutoScalingGroup(
             self, 
-            "WebserverEC2",
+            "ASG",
+            vpc=VPC1,
+            auto_scaling_group_name="Auto_Scaling_Group",
+            vpc_subnets=ec2.SubnetSelection(
+                subnet_type=ec2.SubnetType.PUBLIC
+                # subnet_type=ec2.SubnetType.PRIVATE_WITH_NAT
+            ),
             instance_type=ec2.InstanceType("t2.micro"),
             machine_image=ec2.AmazonLinuxImage(),
-            vpc=VPC1,
-            availability_zone="eu-central-1b",
-            instance_name="Webserver_Instance",
-            role=S3_Access_role,
-            security_group=ALB_SG,
             key_name="Web_Keypair",
-            block_devices=[
-                ec2.BlockDevice(
-                    device_name="/dev/xvda",
-                    volume=ec2.BlockDeviceVolume.ebs(
-                        30, 
-                        encrypted=True,
-                        kms_key=EBS_Web_Key,
-                        delete_on_termination=True
-                    )
-                )
-            ]
+            # launch_template=asg_launch_temp,
+            min_capacity= 1,
+            max_capacity= 3,
+            health_check=autoscaling.HealthCheck.elb(
+            grace=cdk.Duration.minutes(30)
+            ),
+            # block_devices=[
+            #     ec2.BlockDevice(
+            #         device_name="/dev/xvda",
+            #         volume=ec2.BlockDeviceVolume.ebs(
+            #             30, 
+            #             encrypted=True,
+            #             kms_key=EBS_Admin_Key,
+            #             delete_on_termination=True
+            #         )
+            #     )
+            # ]
         )
 
-        # # Instance2: Admin server
+        # Scaling Policy
+
+        ASG.scale_on_cpu_utilization(
+            "cpu_auto_scaling_policy",
+            target_utilization_percent=80
+        )
+
+        ############### EC2 Instance ###############
+
+        # Instance2: Admin server
 
         Instance2=ec2.Instance(
             self, 
@@ -418,7 +501,6 @@ class CDKStack(Stack):
             vpc=VPC2,
             availability_zone="eu-central-1b",
             instance_name= "Adminserver_Instance",
-            role=SSM_role,
             security_group=Adminserver_SG,
             key_name="Admin_Keypair",
             block_devices=[
@@ -434,60 +516,41 @@ class CDKStack(Stack):
             ]
         )
 
-        ############### Auto-Scaling Group ###############
-
-        # Create auto-scaling group
-        ASG= autoscaling.AutoScalingGroup(
-            self, 
-            "ASG",
-            vpc=VPC1,
-            instance_type= ec2.InstanceType("t2.micro"),
-            machine_image=ec2.AmazonLinuxImage(),
-            role=S3_Access_role,
-            security_group=ALB_SG,
-            min_capacity= 1,
-            max_capacity= 2,
-            health_check=autoscaling.HealthCheck.elb(
-            grace=cdk.Duration.seconds(0)
-            ),
-            key_name="Web_Keypair"
-        )
 
         ############### VPC1 Application Load Balancer ###############
 
-        ALB=elbv2.ApplicationLoadBalancer(
-            self,
-            'ALB',
-            vpc=VPC1,
-            internet_facing=True,
-            security_group=ALB_SG,
-        )
+        # ALB=elbv2.ApplicationLoadBalancer(
+        #     self,
+        #     'ALB',
+        #     vpc=VPC1,
+        #     internet_facing=True,
+        #     # security_group=ALB_SG,
+        # )
 
-        # listener_certificate=elbv2.ListenerCertificate.from_arn(
+        # # listener_certificate=elbv2.ListenerCertificate.from_arn(
             
-        #     )
+        # #     )
 
-        #Listener
+        # # Listener
         # listener= ALB.add_listener(
         #     'Listener',
         #     port=443,
-        #     certificate= [Certificate],
         # )
 
-        # listener.add_targets(
-        #     # 'ASG',
-        #     # targets=[ASG],
-        #     # health_check=elbv2.HealthCheck(
-        #     #     path='/ping',
-        #     #     interval= Duration.minutes(1)
-        #     # )
+        # # listener.add_targets(
+        # #     # 'ASG',
+        # #     # targets=[ASG],
+        # #     # health_check=elbv2.HealthCheck(
+        # #     #     path='/ping',
+        # #     #     interval= Duration.minutes(1)
+        # #     # )
+        # # )
+        # ALB.add_redirect(
+        #     source_protocol= elbv2.ApplicationProtocol.HTTP,
+        #     source_port=80,
+        #     target_protocol=elbv2.ApplicationProtocol.HTTPS,
+        #     target_port=443,
         # )
-        ALB.add_redirect(
-            source_protocol= elbv2.ApplicationProtocol.HTTP,
-            source_port=80,
-            target_protocol=elbv2.ApplicationProtocol.HTTPS,
-            target_port=443,
-        )
         ############### S3 Bucket ###############
 
         # Create S3 bucket for bootstrap script
@@ -501,7 +564,7 @@ class CDKStack(Stack):
             auto_delete_objects=True
         )
 
-        # Put cdkproject folder in S3 bucket
+        # Put userdata.sh from Script folder in S3 bucket
 
         s3deploy.BucketDeployment(
             self, 
@@ -510,26 +573,20 @@ class CDKStack(Stack):
             sources=[s3deploy.Source.asset("./Scripts")]
         )
 
-        # Allow EC2 instances to get files from the bucket
+        # Allow EC2 instance to get files from the bucket
 
-        scriptbucket.add_to_resource_policy(
-            iam.PolicyStatement(
-                effect=iam.Effect.ALLOW,
-                principals=[iam.ServicePrincipal("ec2.amazonaws.com")],
-                actions=["s3:GetObject"],
-                resources=[f"{scriptbucket.bucket_arn}/*"])
-        )
+        scriptbucket.grant_read(ASG.role)
 
         # ############### Script Launch ##############
 
-        script_path=Instance1.user_data.add_s3_download_command(
-            bucket=scriptbucket,
-            bucket_key="userdata.sh"
-        )
+        # script_path=Instance1.user_data.add_s3_download_command(
+        #     bucket=scriptbucket,
+        #     bucket_key="userdata.sh"
+        # )
 
-        Instance1.user_data.add_execute_file_command(
-            file_path=script_path
-        )
+        # Instance1.user_data.add_execute_file_command(
+        #     file_path=script_path
+        # )
 
         script_path=ASG.user_data.add_s3_download_command(
             bucket=scriptbucket,
@@ -542,41 +599,40 @@ class CDKStack(Stack):
 
         # ############### Backup Policies ###############
 
+        # # Create Backup Vault
 
-        # Backup Webserver
-        # Create Backup Vault
-
-        webservervault=backup.BackupVault(
+        ASGvault=backup.BackupVault(
             self,
-            "Webserver_Backup_Vault",
+            "ASG_Backup_Vault",
             encryption_key=Vault_Key,
             removal_policy=RemovalPolicy.DESTROY
         )
 
         # Create Backup Plan
 
-        webserverplan=backup.BackupPlan(
+        ASGplan=backup.BackupPlan(
             self,
             "webserver_backup_plan",
+            backup_vault=ASGvault
         )
 
-        # Add Resources to plan
+        # # Add Resources to plan
 
-        webserverplan.add_selection("Selection",
-        resources=[
-            backup.BackupResource.from_ec2_instance(Instance1)
-        ]
-        )
+        # ASGplan.add_selection("ASG",
+        # resources=[
+        #     backup.BackupResource.from_auto_scaling_group(ASG)
+        # ]
+        # )
 
         # Add Backup Rule: each day at 00:00 with 7 days retention
 
-        webserverplan.add_rule(
+        ASGplan.add_rule(
             backup.BackupPlanRule(
-                backup_vault=webservervault,
+                backup_vault=ASGvault,
                 rule_name="Daily_Backup_7_Day_Retention",
                 schedule_expression=Schedule.cron(
                     week_day="*",
-                    hour="00",
+                    hour="0",
                     minute="0"
                     ),
                 delete_after=Duration.days(7),
