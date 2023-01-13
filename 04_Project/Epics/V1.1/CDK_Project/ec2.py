@@ -7,16 +7,16 @@ from aws_cdk import (
 from constructs import Construct
 # from cdk_ec2_key_pair import KeyPair
 
-class Admin_Stack(cdk.NestedStack):
+class Admin_Construct(Construct):
 
-    def __init__(self, scope: Construct, construct_id: str, VPC_Adminserver=ec2.Vpc, Adminserver_sg=ec2.SecurityGroup, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, vpc_adminserver=ec2.Vpc, adminserver_sg=ec2.SecurityGroup, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
                 ############### EC2 Instance ###############
 
         # Key Pair Admin Server
 
-        self.Admin_Keypair=ec2.CfnKeyPair(
+        self.admin_keypair=ec2.CfnKeyPair(
             self,
             "Admin_Keypair",
             key_name="Admin_Keypair",
@@ -24,16 +24,16 @@ class Admin_Stack(cdk.NestedStack):
 
         # Instance2: Admin server
 
-        self.Adminserver=ec2.Instance(
+        self.adminserver=ec2.Instance(
             self, 
             "Adminserver",
             instance_type=ec2.InstanceType("t2.micro"),
             machine_image=ec2.MachineImage.latest_windows(
             ec2.WindowsVersion.WINDOWS_SERVER_2022_ENGLISH_FULL_BASE),
-            vpc=VPC_Adminserver,
+            vpc=vpc_adminserver,
             availability_zone="eu-central-1b",
             instance_name= "Adminserver_Instance",
-            security_group=Adminserver_sg,
+            security_group=adminserver_sg,
             key_name="Admin_Keypair",
             block_devices=[
                 ec2.BlockDevice(

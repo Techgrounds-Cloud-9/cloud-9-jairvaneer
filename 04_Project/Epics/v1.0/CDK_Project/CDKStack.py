@@ -104,7 +104,7 @@ class CDKStack(Stack):
 
         # VPC Peering
 
-        VPC_Peering_Connection=ec2.CfnVPCPeeringConnection(
+        vpc_peering_connection=ec2.CfnVPCPeeringConnection(
             self, 
             "VPC1_VPC2_Peering_Connection",
             peer_vpc_id=VPC2.vpc_id,
@@ -118,7 +118,7 @@ class CDKStack(Stack):
             "Admin_to_Web_Route",
             route_table_id=VPC2.public_subnets[1].route_table.route_table_id,
             destination_cidr_block=VPC1.vpc_cidr_block,
-            vpc_peering_connection_id=VPC_Peering_Connection.ref,
+            vpc_peering_connection_id=vpc_peering_connection.ref,
         )
 
         # VPC Peering connection from VPC1 to VPC2 through Route Table 
@@ -128,7 +128,7 @@ class CDKStack(Stack):
             "Web_to_Admin_Route",
             route_table_id=VPC1.public_subnets[0].route_table.route_table_id,
             destination_cidr_block=VPC2.vpc_cidr_block,
-            vpc_peering_connection_id=VPC_Peering_Connection.ref,
+            vpc_peering_connection_id=vpc_peering_connection.ref,
         )
 
 
@@ -295,29 +295,29 @@ class CDKStack(Stack):
 
         # Security Group Admin Server
 
-        Adminserver_SG = ec2.SecurityGroup(
+        adminserver_sg = ec2.SecurityGroup(
             self, 
             "Adminserver_Security_Group",
             vpc=VPC2,
             description= "Security group of the Adminserver",
             allow_all_outbound=True
         )
-        Adminserver_SG.add_ingress_rule(
+        adminserver_sg.add_ingress_rule(
             peer= ec2.Peer.ipv4("178.85.64.168/32"), 
             connection= ec2.Port.tcp(22), 
             description= "allow SSH access from admin IPv4 adress"
         )
-        Adminserver_SG.add_ingress_rule(
+        adminserver_sg.add_ingress_rule(
             peer= ec2.Peer.ipv4("178.85.64.168/32"), 
             connection= ec2.Port.tcp(3389), 
             description= "allow RDP access from admin IPv4 adress"
         )
-        Adminserver_SG.add_ingress_rule(
+        adminserver_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(3389), 
             description= "allow RDP access from admin IPv6 adress"
         )        
-        Adminserver_SG.add_ingress_rule(
+        adminserver_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(22), 
             description= "allow SSH access from admin IPv6 adress"
@@ -397,7 +397,7 @@ class CDKStack(Stack):
             vpc=VPC2,
             availability_zone="eu-central-1b",
             instance_name= "Adminserver_Instance",
-            security_group=Adminserver_SG,
+            security_group=adminserver_sg,
             key_name="Admin_Keypair",
             block_devices=[
                 ec2.BlockDevice(
@@ -464,7 +464,7 @@ class CDKStack(Stack):
 
         webserverplan=backup.BackupPlan(
             self,
-            "webserver_backup_plan",
+            "webserver_backupplan",
         )
 
         # Add Resources to plan

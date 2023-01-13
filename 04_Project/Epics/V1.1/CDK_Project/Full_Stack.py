@@ -55,7 +55,7 @@ from aws_cdk import (
     Duration,
     # CfnOutput,
     # App,
-    # Tags,
+    Tags,
     Stack
 )
 
@@ -88,12 +88,12 @@ class CDKStack(Stack):
 
         # VPC 1 - Webserver VPC
 
-        VPC_Webserver=ec2.Vpc(
+        vpc_webserver=ec2.Vpc(
             self, 
             "WebserverVPC",
             ip_addresses=ec2.IpAddresses.cidr("10.10.10.0/24"),
             vpc_name="WebserverVPC",
-            availability_zones=["eu-central-1a", "eu-central-1b"],
+            availability_zones=["eu-central-1a", "eu-central-1b", "eu-central-1c"],
             nat_gateway_subnets=ec2.SubnetSelection(
                 subnet_group_name="public_subnet"
             ), 
@@ -113,7 +113,7 @@ class CDKStack(Stack):
 
         # VPC 2 - Adminserver VPC
 
-        VPC_Adminserver=ec2.Vpc(
+        vpc_adminserver=ec2.Vpc(
             self, 
             "AdminserverVPC",
             ip_addresses=ec2.IpAddresses.cidr("10.20.20.0/24"),
@@ -131,32 +131,32 @@ class CDKStack(Stack):
 
         ############### VPC Peering ###############
 
-        VPC_Peering_Connection=ec2.CfnVPCPeeringConnection(
+        vpc_peering_connection=ec2.CfnVPCPeeringConnection(
             self, 
             "VPC1_VPC2_Peering_Connection",
-            peer_vpc_id=VPC_Adminserver.vpc_id,
-            vpc_id=VPC_Webserver.vpc_id,
+            peer_vpc_id=vpc_adminserver.vpc_id,
+            vpc_id=vpc_webserver.vpc_id,
         )
         
 
         # VPC Peering connection from VPC1 to VPC2 through Route Table 
 
-        self.Web_to_Admin_Route=ec2.CfnRoute(
+        self.web_to_admin_route=ec2.CfnRoute(
             self,
             "Web_to_Admin_Route",
-            route_table_id=VPC_Webserver.public_subnets[0].route_table.route_table_id,
-            destination_cidr_block=VPC_Adminserver.vpc_cidr_block,
-            vpc_peering_connection_id=VPC_Peering_Connection.ref,
+            route_table_id=vpc_webserver.public_subnets[0].route_table.route_table_id,
+            destination_cidr_block=vpc_adminserver.vpc_cidr_block,
+            vpc_peering_connection_id=vpc_peering_connection.ref,
         )
 
         # VPC Peering connection from VPC2 to VPC1 through Route Table 
 
-        self.Admin_to_Web_Route=ec2.CfnRoute(
+        self.admin_to_Web_Route=ec2.CfnRoute(
             self,
             "Admin_to_Web_Route",
-            route_table_id=VPC_Adminserver.public_subnets[1].route_table.route_table_id,
-            destination_cidr_block=VPC_Webserver.vpc_cidr_block,
-            vpc_peering_connection_id=VPC_Peering_Connection.ref,
+            route_table_id=vpc_adminserver.public_subnets[1].route_table.route_table_id,
+            destination_cidr_block=vpc_webserver.vpc_cidr_block,
+            vpc_peering_connection_id=vpc_peering_connection.ref,
         )
 # self.cfn_VPCPeering_connection =ec2.CfnVPCPeeringConnection(self, "VPC peering connection",
 #             peer_vpc_id = AdminVPC.vpc_id,
@@ -185,72 +185,72 @@ class CDKStack(Stack):
 
         # Network ACL Webserver
 
-        NACL_Web=ec2.NetworkAcl(
+        nacl_web=ec2.NetworkAcl(
             self, 
             "WebServer_NACL",
-            vpc=VPC_Webserver,
+            vpc=vpc_webserver,
             network_acl_name="Webserver_NACL",
             subnet_selection=ec2.SubnetSelection(
-                availability_zones=["eu-central-1a"],
+                availability_zones=["eu-central-1a", "eu_central 1b", "eu-central-1c"],
                 )
         )
-        NACL_Web.add_entry("Allow_All_Ingress_IPv4_HTTP_to_Webserver",
+        nacl_web.add_entry("Allow_All_Ingress_IPv4_HTTP_to_Webserver",
             cidr= ec2.AclCidr.any_ipv4(),
             rule_number= 100,
             traffic= ec2.AclTraffic.tcp_port(80),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
-        NACL_Web.add_entry("Allow_All_Ingress_IPv6_HTTP_to_Webserver",
+        nacl_web.add_entry("Allow_All_Ingress_IPv6_HTTP_to_Webserver",
             cidr= ec2.AclCidr.any_ipv6(),
             rule_number= 110,
             traffic= ec2.AclTraffic.tcp_port(80),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
-        NACL_Web.add_entry("Allow_All_Ingress_IPv4_HTTPS_to_Webserver",
+        nacl_web.add_entry("Allow_All_Ingress_IPv4_HTTPS_to_Webserver",
             cidr= ec2.AclCidr.any_ipv4(),
             rule_number= 120,
             traffic= ec2.AclTraffic.tcp_port(443),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
-        NACL_Web.add_entry("Allow_All_Ingress_IPv6_HTTPS_to_Webserver",
+        nacl_web.add_entry("Allow_All_Ingress_IPv6_HTTPS_to_Webserver",
             cidr= ec2.AclCidr.any_ipv6(),
             rule_number= 130,
             traffic= ec2.AclTraffic.tcp_port(443),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
-        NACL_Web.add_entry("Allow_Ingress_SSH_from_Adminserver",
+        nacl_web.add_entry("Allow_Ingress_SSH_from_Adminserver",
             cidr= ec2.AclCidr.ipv4("10.20.20.128/25"),
             rule_number= 140,
             traffic= ec2.AclTraffic.tcp_port(22),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )                        
-        NACL_Web.add_entry("Allow_Ingress_Ephemeral_Ipv6",
+        nacl_web.add_entry("Allow_Ingress_Ephemeral_Ipv6",
             cidr=ec2.AclCidr.any_ipv4(),
             rule_number=150,
             traffic= ec2.AclTraffic.tcp_port_range(1024, 65535),
             direction=ec2.TrafficDirection.INGRESS, 
             rule_action=ec2.Action.ALLOW,
         )       
-        NACL_Web.add_entry("Allow_Ingress_Ephemeral_IPv6",
+        nacl_web.add_entry("Allow_Ingress_Ephemeral_IPv6",
             cidr=ec2.AclCidr.any_ipv6(),
             rule_number=160,
             traffic= ec2.AclTraffic.tcp_port_range(1024, 65535),
             direction=ec2.TrafficDirection.INGRESS, 
             rule_action=ec2.Action.ALLOW,
         )
-        NACL_Web.add_entry("Allow_All_Egress_Ipv4",
+        nacl_web.add_entry("Allow_All_Egress_Ipv4",
             cidr=ec2.AclCidr.any_ipv4(),
             rule_number=100,
             traffic= ec2.AclTraffic.all_traffic(),
             direction=ec2.TrafficDirection.EGRESS, 
             rule_action=ec2.Action.ALLOW,
         )
-        NACL_Web.add_entry("Allow_All_Egress_IPv6",
+        nacl_web.add_entry("Allow_All_Egress_IPv6",
             cidr=ec2.AclCidr.any_ipv6(),
             rule_number=110,
             traffic= ec2.AclTraffic.all_traffic(),
@@ -260,44 +260,44 @@ class CDKStack(Stack):
 
         # # Network ACL Admin Server
 
-        NACL_Admin = ec2.NetworkAcl(
+        nacl_admin = ec2.NetworkAcl(
             self, 
             "Adminserver_NACL", 
-            vpc = VPC_Adminserver,
+            vpc = vpc_adminserver,
             network_acl_name="Adminserver_NACL",
             subnet_selection=ec2.SubnetSelection(
                 availability_zones=["eu-central-1b"],
                 )
         )
-        NACL_Admin.add_entry("Allow_Admin_Ingress_SSH_to_Adminserver_IPv4",
+        nacl_admin.add_entry("Allow_Admin_Ingress_SSH_to_Adminserver_IPv4",
             cidr= ec2.AclCidr.ipv4("178.85.64.168/32"),
             rule_number= 100,
             traffic= ec2.AclTraffic.tcp_port(22),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
-        NACL_Admin.add_entry("Allow_Admin_Ingress_RDP_to_Adminserver_IPv4",
+        nacl_admin.add_entry("Allow_Admin_Ingress_RDP_to_Adminserver_IPv4",
             cidr= ec2.AclCidr.ipv4("178.85.64.168/32"),
             rule_number= 110,
             traffic= ec2.AclTraffic.tcp_port(3389),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )  
-        NACL_Admin.add_entry("Allow_Admin_Ingress_RDP_to_Adminserver_IPv6",
+        nacl_admin.add_entry("Allow_Admin_Ingress_RDP_to_Adminserver_IPv6",
             cidr=ec2.AclCidr.any_ipv6(),
             rule_number=120,
             traffic=ec2.AclTraffic.tcp_port(3389),
             direction=ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW,
         )
-        NACL_Admin.add_entry("Allow_Ingress_Ephemeral_IPv4_from_Webserver",
+        nacl_admin.add_entry("Allow_Ingress_Ephemeral_IPv4_from_Webserver",
             cidr=ec2.AclCidr.ipv4("10.10.10.0/25"),
             rule_number=130,
             traffic= ec2.AclTraffic.tcp_port_range(1024, 65535),
             direction=ec2.TrafficDirection.INGRESS, 
             rule_action=ec2.Action.ALLOW,
         )
-        NACL_Admin.add_entry("Allow_All_Egress_IPv4",
+        nacl_admin.add_entry("Allow_All_Egress_IPv4",
             cidr=ec2.AclCidr.any_ipv4(),
             rule_number=100,
             traffic= ec2.AclTraffic.all_traffic(),
@@ -309,34 +309,34 @@ class CDKStack(Stack):
 
         # Security Group Auto Scaling Group
 
-        ASG_sg = ec2.SecurityGroup(
+        asg_sg = ec2.SecurityGroup(
             self, 
             "Auto_Scaling_Group_Security_Group",
-            vpc= VPC_Webserver,
+            vpc= vpc_webserver,
             description= "Security group of the Auto Scaling Group",
             allow_all_outbound=True
         )
-        ASG_sg.add_ingress_rule(
+        asg_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv4(), 
             connection= ec2.Port.tcp(80), 
             description= "allow IPv4 HTTP access from the world"
         )
-        ASG_sg.add_ingress_rule(
+        asg_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv4(), 
             connection= ec2.Port.tcp(443), 
             description= "allow IPv4 HTTPS acccess from the world"
         )
-        ASG_sg.add_ingress_rule(
+        asg_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(80), 
             description= "allow IPv6 HTTP acccess from the world"
         )
-        ASG_sg.add_ingress_rule(
+        asg_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(443), 
             description= "allow IPv6 HTTPS acccess from the world"
         )
-        ASG_sg.add_ingress_rule(
+        asg_sg.add_ingress_rule(
             peer= ec2.Peer.ipv4("10.20.20.128/25"), 
             connection= ec2.Port.tcp(22), 
             description= "allow SSH access from Admin Server IP adress"
@@ -344,29 +344,29 @@ class CDKStack(Stack):
 
         # Security Group Admin Server
 
-        Adminserver_sg = ec2.SecurityGroup(
+        adminserver_sg = ec2.SecurityGroup(
             self, 
             "Adminserver_Security_Group",
-            vpc=VPC_Adminserver,
+            vpc=vpc_adminserver,
             description= "Security group of the Adminserver",
             allow_all_outbound=True
         )
-        Adminserver_sg.add_ingress_rule(
+        adminserver_sg.add_ingress_rule(
             peer= ec2.Peer.ipv4("178.85.64.168/32"), 
             connection= ec2.Port.tcp(22), 
             description= "allow SSH access from admin IPv4 adress"
         )
-        Adminserver_sg.add_ingress_rule(
+        adminserver_sg.add_ingress_rule(
             peer= ec2.Peer.ipv4("178.85.64.168/32"), 
             connection= ec2.Port.tcp(3389), 
             description= "allow RDP access from admin IPv4 adress"
         )
-        Adminserver_sg.add_ingress_rule(
+        adminserver_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(3389), 
             description= "allow RDP access from admin IPv6 adress"
         )        
-        Adminserver_sg.add_ingress_rule(
+        adminserver_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(22), 
             description= "allow SSH access from admin IPv6 adress"
@@ -374,34 +374,34 @@ class CDKStack(Stack):
 
         # Security Group Application Load Balancer
 
-        ALB_sg = ec2.SecurityGroup(
+        alb_sg = ec2.SecurityGroup(
             self, 
             "Application_Load_Balancer_Security_Group",
-            vpc= VPC_Webserver,
+            vpc= vpc_webserver,
             description= "Security group of the Application Load Balancer",
             allow_all_outbound=True
         )
-        ALB_sg.add_ingress_rule(
+        alb_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv4(), 
             connection= ec2.Port.tcp(80), 
             description= "allow IPv4 HTTP access from the world"
         )
-        ALB_sg.add_ingress_rule(
+        alb_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv4(), 
             connection= ec2.Port.tcp(443), 
             description= "allow IPv4 HTTPS acccess from the world"
         )
-        ALB_sg.add_ingress_rule(
+        alb_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(80), 
             description= "allow IPv6 HTTP acccess from the world"
         )
-        ALB_sg.add_ingress_rule(
+        alb_sg.add_ingress_rule(
             peer= ec2.Peer.any_ipv6(), 
             connection= ec2.Port.tcp(443), 
             description= "allow IPv6 HTTPS acccess from the world"
         )        
-        ALB_sg.add_ingress_rule(
+        alb_sg.add_ingress_rule(
             peer= ec2.Peer.ipv4("10.20.20.128/25"), 
             connection= ec2.Port.tcp(22), 
             description= "allow SSH access from Admin Server IP adress"
@@ -434,7 +434,7 @@ class CDKStack(Stack):
 
         # Key Pair Webserver
 
-        self.Web_Keypair=ec2.CfnKeyPair(
+        self.web_keypair=ec2.CfnKeyPair(
             self,
             "Web_Keypair",
             key_name="Web_Keypair",
@@ -442,7 +442,7 @@ class CDKStack(Stack):
 
         # Key Pair Admin Server
 
-        self.Admin_Keypair=ec2.CfnKeyPair(
+        self.admin_keypair=ec2.CfnKeyPair(
             self,
             "Admin_Keypair",
             key_name="Admin_Keypair",
@@ -450,7 +450,9 @@ class CDKStack(Stack):
 
         ############### Key Management Service ###############
 
-        EBS_Admin_Key=kms.Key(self, "EBS_Admin_Key",
+        ebs_admin_key=kms.Key(
+            self, 
+            "EBS_Admin_Key",
             enable_key_rotation = True,
             alias="EBS_Admin_Key",
             removal_policy=RemovalPolicy.DESTROY
@@ -460,16 +462,20 @@ class CDKStack(Stack):
         #     alias="EBS_Web_Key",
         #     removal_policy=RemovalPolicy.DESTROY
         #     )
-        # Vault_Key=kms.Key(self, "Vault_Key",
+
+        # self.vaultkey=kms.Key(
+        #     self,  
+        #     "vaultkey",
         #     enable_key_rotation=True,
         #     alias="Vault_Key",
         #     removal_policy=RemovalPolicy.DESTROY
-        #     )
+        #     ),
+
 
 
         ############### Launch Template ###############
 
-        self.ASG_Launch_Temp=ec2.LaunchTemplate(
+        self.asg_launch_temp=ec2.LaunchTemplate(
             self,
             "Launch Template",
             launch_template_name="webserver_template",
@@ -483,7 +489,7 @@ class CDKStack(Stack):
                 ],
             ),
             user_data=ec2.UserData.for_linux(),
-            security_group=ASG_sg,
+            security_group=asg_sg,
             key_name="Web_Keypair",
             block_devices=[
                 ec2.BlockDevice(
@@ -501,10 +507,10 @@ class CDKStack(Stack):
 
         # Create auto-scaling group which will serve as webserver
 
-        AS_Group= autoscaling.AutoScalingGroup(
+        asg= autoscaling.AutoScalingGroup(
             self, 
             "Auto_Scaling_Group",
-            vpc=VPC_Webserver,
+            vpc=vpc_webserver,
             auto_scaling_group_name="Auto_Scaling_Group",
             vpc_subnets=ec2.SubnetSelection(
                 subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS
@@ -512,7 +518,7 @@ class CDKStack(Stack):
             # instance_type=ec2.InstanceType("t2.micro"),
             # machine_image=ec2.AmazonLinuxImage(),
             # key_name="Web_Keypair",
-            launch_template=self.ASG_Launch_Temp,
+            launch_template=self.asg_launch_temp,
             min_capacity= 1,
             max_capacity= 3,
             health_check=autoscaling.HealthCheck.elb(
@@ -532,7 +538,7 @@ class CDKStack(Stack):
         )
 
         # Scaling Policy
-        AS_Group.scale_on_cpu_utilization(
+        asg.scale_on_cpu_utilization(
             "CPU_Auto_Scaling",
             target_utilization_percent=80
         )
@@ -541,16 +547,16 @@ class CDKStack(Stack):
 
         # Instance2: Admin server
 
-        self.Adminserver=ec2.Instance(
+        self.adminserver=ec2.Instance(
             self, 
             "Adminserver",
             instance_type=ec2.InstanceType("t2.micro"),
             machine_image=ec2.MachineImage.latest_windows(
             ec2.WindowsVersion.WINDOWS_SERVER_2022_ENGLISH_FULL_BASE),
-            vpc=VPC_Adminserver,
+            vpc=vpc_adminserver,
             availability_zone="eu-central-1b",
             instance_name= "Adminserver_Instance",
-            security_group=Adminserver_sg,
+            security_group=adminserver_sg,
             key_name="Admin_Keypair",
             block_devices=[
                 ec2.BlockDevice(
@@ -558,7 +564,7 @@ class CDKStack(Stack):
                     volume=ec2.BlockDeviceVolume.ebs(
                         30, 
                         encrypted=True,
-                        kms_key=EBS_Admin_Key,
+                        kms_key=ebs_admin_key,
                         delete_on_termination=True
                     )
                 )
@@ -571,8 +577,8 @@ class CDKStack(Stack):
         self.alb=elbv2.ApplicationLoadBalancer(
             self,
             "Application_Load_Balancer",
-            vpc=VPC_Webserver,
-            security_group= ALB_sg,
+            vpc=vpc_webserver,
+            security_group= alb_sg,
             internet_facing=True,
         )
 
@@ -584,7 +590,7 @@ class CDKStack(Stack):
         self.listener.add_targets(
             "ASG",
             port=80,
-            targets=[AS_Group],
+            targets=[asg],
             health_check=elbv2.HealthCheck(
                 enabled=True,
                 port="80"
@@ -658,55 +664,54 @@ class CDKStack(Stack):
         #     file_path=script_path
         # )
 
-        script_path=AS_Group.user_data.add_s3_download_command(
+        script_path=asg.user_data.add_s3_download_command(
             bucket=scriptbucket,
             bucket_key="loadtest.sh"
         )
 
-        AS_Group.user_data.add_execute_file_command(
+        asg.user_data.add_execute_file_command(
             file_path=script_path
         )
 
 
-                # ############### Backup Policies ###############
+                ############### Backup Policies ###############
+
+        # Create Tag
+
+        Tags.of(asg).add("asg_tag", "asg_tag_value")
 
         # Create Backup Vault
 
-        self.Backup_Vault=backup.BackupVault(
+        self.backup_vault=backup.BackupVault(
             self,
             "ASG_Backup_Vault",
             backup_vault_name="Backup_Vault",
-            # Vault_Key=kms.Key(
-            #     self,  
-            #     "Vault_Key",
-            #     enable_key_rotation=True,
-            #     alias="Vault_Key",
-            #     removal_policy=RemovalPolicy.DESTROY
-            #     ),
+            # encryption_key=self.vaultkey,
             removal_policy=RemovalPolicy.DESTROY
         )
 
         # Create Backup Plan
 
-        self.Backup_Plan=backup.BackupPlan(
+        backupplan=backup.BackupPlan(
             self,
-            "Backup_Plan",
-            backup_vault=self.Backup_Vault
+            "backupplan",
+            backup_vault=self.backup_vault
         )
 
-        # # Add Resources to plan
+        # Add Resources to plan
 
-        # ASGplan.add_selection("ASG",
-        # resources=[
-        #     backup.BackupResource.from_auto_scaling_group(ASG)
-        # ]
-        # )
+        backupplan.add_selection(
+            "Selection",
+            resources=[
+                backup.BackupResource.from_tag("asg_tag", "asg_tag_value")
+            ]
+        )
 
         # Add Backup Rule: each day at 00:00 with 7 days retention
 
-        self.Backup_Plan.add_rule(
+        backupplan.add_rule(
             backup.BackupPlanRule(
-                backup_vault=self.Backup_Vault,
+                backup_vault=self.backup_vault,
                 rule_name="Daily_Backup_7_Day_Retention",
                 schedule_expression=events.Schedule.cron(
                     week_day="*",

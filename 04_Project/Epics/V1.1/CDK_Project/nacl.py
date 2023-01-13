@@ -5,9 +5,11 @@ from aws_cdk import (
 
 from constructs import Construct
 
-class NACL_Stack(cdk.NestedStack):
+my_ip="178.85.64.168/32"
+
+class NACL_Construct(Construct):
     
-    def __init__(self, scope: Construct, construct_id: str, VPC_Webserver=ec2.Vpc, VPC_Adminserver=ec2.Vpc, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, vpc_webserver, vpc_adminserver, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
                 ############## Network ACL's ###############
@@ -17,10 +19,10 @@ class NACL_Stack(cdk.NestedStack):
         NACL_Web=ec2.NetworkAcl(
             self, 
             "WebServer_NACL",
-            vpc=VPC_Webserver,
+            vpc=vpc_webserver,
             network_acl_name="Webserver_NACL",
             subnet_selection=ec2.SubnetSelection(
-                availability_zones=["eu-central-1a"],
+                availability_zones=["eu-central-1a", "eu_central 1b", "eu-central-1c"],
                 )
         )
         NACL_Web.add_entry("Allow_All_Ingress_IPv4_HTTP_to_Webserver",
@@ -89,44 +91,44 @@ class NACL_Stack(cdk.NestedStack):
 
         # # Network ACL Admin Server
 
-        NACL_Admin = ec2.NetworkAcl(
+        nacl_admin = ec2.NetworkAcl(
             self, 
             "Adminserver_NACL", 
-            vpc = VPC_Adminserver,
+            vpc = vpc_adminserver,
             network_acl_name="Adminserver_NACL",
             subnet_selection=ec2.SubnetSelection(
                 availability_zones=["eu-central-1b"],
                 )
         )
-        NACL_Admin.add_entry("Allow_Admin_Ingress_SSH_to_Adminserver_IPv4",
-            cidr= ec2.AclCidr.ipv4("178.85.64.168/32"),
+        nacl_admin.add_entry("Allow_Admin_Ingress_SSH_to_Adminserver_IPv4",
+            cidr= ec2.AclCidr.ipv4(my_ip),
             rule_number= 100,
             traffic= ec2.AclTraffic.tcp_port(22),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )
-        NACL_Admin.add_entry("Allow_Admin_Ingress_RDP_to_Adminserver_IPv4",
-            cidr= ec2.AclCidr.ipv4("178.85.64.168/32"),
+        nacl_admin.add_entry("Allow_Admin_Ingress_RDP_to_Adminserver_IPv4",
+            cidr= ec2.AclCidr.ipv4(my_ip),
             rule_number= 110,
             traffic= ec2.AclTraffic.tcp_port(3389),
             direction= ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW
         )  
-        NACL_Admin.add_entry("Allow_Admin_Ingress_RDP_to_Adminserver_IPv6",
+        nacl_admin.add_entry("Allow_Admin_Ingress_RDP_to_Adminserver_IPv6",
             cidr=ec2.AclCidr.any_ipv6(),
             rule_number=120,
             traffic=ec2.AclTraffic.tcp_port(3389),
             direction=ec2.TrafficDirection.INGRESS,
             rule_action=ec2.Action.ALLOW,
         )
-        NACL_Admin.add_entry("Allow_Ingress_Ephemeral_IPv4_from_Webserver",
+        nacl_admin.add_entry("Allow_Ingress_Ephemeral_IPv4_from_Webserver",
             cidr=ec2.AclCidr.ipv4("10.10.10.0/25"),
             rule_number=130,
             traffic= ec2.AclTraffic.tcp_port_range(1024, 65535),
             direction=ec2.TrafficDirection.INGRESS, 
             rule_action=ec2.Action.ALLOW,
         )
-        NACL_Admin.add_entry("Allow_All_Egress_IPv4",
+        nacl_admin.add_entry("Allow_All_Egress_IPv4",
             cidr=ec2.AclCidr.any_ipv4(),
             rule_number=100,
             traffic= ec2.AclTraffic.all_traffic(),

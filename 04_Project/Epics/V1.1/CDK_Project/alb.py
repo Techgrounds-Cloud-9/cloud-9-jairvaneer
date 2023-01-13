@@ -11,22 +11,22 @@ from aws_cdk import (
 from constructs import Construct
 
 
-class ALB_Stack(cfn.NestedStack):
+class ALB_Construct(Construct):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        VPC_Webserver=ec2.Vpc
-        ALB_sg=ec2.SecurityGroup
-        AS_Group=autoscaling.AutoScalingGroup
+        vpc_webserver=ec2.Vpc(self, "WebserverVPC")
+        alb_sg=ec2.SecurityGroup(self, "Application_Load_Balancer_Security_Group")
+        AS_Group=autoscaling.AutoScalingGroup(self, "Auto_Scaling_Group")
 
         ############### VPC1 Application Load Balancer ###############
 
         self.alb=elbv2.ApplicationLoadBalancer(
             self,
             'Application_Load_Balancer',
-            vpc=VPC_Webserver,
-            security_group= ALB_sg,
+            vpc=vpc_webserver,
+            security_group= alb_sg,
             internet_facing=True,
         )
 
