@@ -9,7 +9,7 @@ from constructs import Construct
 
 class Admin_Construct(Construct):
 
-    def __init__(self, scope: Construct, construct_id: str, vpc_adminserver=ec2.Vpc, adminserver_sg=ec2.SecurityGroup, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, vpc, security_group, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
                 ############### EC2 Instance ###############
@@ -24,16 +24,16 @@ class Admin_Construct(Construct):
 
         # Instance2: Admin server
 
-        self.adminserver=ec2.Instance(
+        adminserver=ec2.Instance(
             self, 
             "Adminserver",
             instance_type=ec2.InstanceType("t2.micro"),
             machine_image=ec2.MachineImage.latest_windows(
             ec2.WindowsVersion.WINDOWS_SERVER_2022_ENGLISH_FULL_BASE),
-            vpc=vpc_adminserver,
+            vpc=vpc,
             availability_zone="eu-central-1b",
             instance_name= "Adminserver_Instance",
-            security_group=adminserver_sg,
+            security_group=security_group,
             key_name="Admin_Keypair",
             block_devices=[
                 ec2.BlockDevice(

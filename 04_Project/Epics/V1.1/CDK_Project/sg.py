@@ -1,4 +1,3 @@
-import aws_cdk as cdk
 from aws_cdk import (
     aws_ec2 as ec2,
 )
@@ -11,13 +10,13 @@ my_ip="178.85.64.168/32"
 
 class ALB_SG_Construct(Construct):
 
-    def __init__(self, scope: Construct, construct_id: str, vpc_webserver, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, vpc, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        alb_sg = ec2.SecurityGroup(
+        alb_sg= ec2.SecurityGroup(
             self, 
             "Application_Load_Balancer_Security_Group",
-            vpc= vpc_webserver,
+            vpc=vpc,
             description= "Security group of the Application Load Balancer",
             allow_all_outbound=True
         )
@@ -51,13 +50,13 @@ class ALB_SG_Construct(Construct):
 
 class ASG_SG_Construct(Construct):
 
-    def __init__(self, scope: Construct, construct_id: str, vpc_webserver, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, vpc, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         asg_sg = ec2.SecurityGroup(
             self, 
             "Auto_Scaling_Group_Security_Group",
-            vpc= vpc_webserver,
+            vpc=vpc,
             description= "Security group of the Auto Scaling Group",
             allow_all_outbound=True
         )
@@ -91,13 +90,13 @@ class ASG_SG_Construct(Construct):
 
 class Admin_SG_Construct(Construct):
 
-    def __init__(self, scope: Construct, construct_id: str, vpc_adminserver, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, vpc, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         adminserver_sg = ec2.SecurityGroup(
             self, 
             "Adminserver_Security_Group",
-            vpc=vpc_adminserver,
+            vpc=vpc,
             description= "Security group of the Adminserver",
             allow_all_outbound=True
         )

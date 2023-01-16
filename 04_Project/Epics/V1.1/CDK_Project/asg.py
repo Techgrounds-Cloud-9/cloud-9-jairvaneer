@@ -1,10 +1,8 @@
-import aws_cdk as cdk
 from aws_cdk import (
     Duration,
     aws_ec2 as ec2,
     aws_autoscaling as autoscaling,
     aws_iam as iam,
-    # aws_s3 as s3,
 )
 
 from constructs import Construct
@@ -12,7 +10,7 @@ from constructs import Construct
 
 class ASG_Construct(Construct):
 
-    def __init__(self, scope: Construct, construct_id: str, vpc_webserver, asg_sg, scriptbucket, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, vpc, security_group, s3_bucket, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         # # Allow EC2 instance to get files from the bucket
@@ -43,7 +41,7 @@ class ASG_Construct(Construct):
                 ],
             ),
             user_data=ec2.UserData.for_linux(),
-            security_group=asg_sg,
+            security_group=security_group,
             key_name="Web_Keypair",
             block_devices=[
                 ec2.BlockDevice(
@@ -64,12 +62,12 @@ class ASG_Construct(Construct):
         asg=autoscaling.AutoScalingGroup(
             self, 
             "Auto_Scaling_Group",
-            vpc=vpc_webserver,
+            vpc=vpc,
             auto_scaling_group_name="Auto_Scaling_Group",
             vpc_subnets=ec2.SubnetSelection(
                 subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS
             ),
-            key_name="Web_Keypair",
+            # key_name="Web_Keypair",
             launch_template=self.asg_launch_temp,
             min_capacity= 1,
             max_capacity= 3,
@@ -87,7 +85,7 @@ class ASG_Construct(Construct):
         ############### Script Launch ##############
 
         script_path=asg.user_data.add_s3_download_command(
-            bucket=scriptbucket,
+            bucket=s3_bucket,
             bucket_key="userdata.sh"
         )
 

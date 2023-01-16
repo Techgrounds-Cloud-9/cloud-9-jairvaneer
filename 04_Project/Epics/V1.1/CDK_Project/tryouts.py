@@ -22,3 +22,14 @@
 #         )
 
 
+        # # Create Vault Key
+
+        # vaultkey=kms.Key(
+        #     self,  
+        #     "Vault_Key",
+        #     enable_key_rotation=True,
+        #     alias="Vault_Key",
+        #     removal_policy=RemovalPolicy.DESTROY
+        #     ),
+
+            # encryption_key=vaultkey,

@@ -53,7 +53,7 @@ from aws_cdk import (
     aws_events as events,
     RemovalPolicy,
     Duration,
-    # CfnOutput,
+    CfnOutput,
     # App,
     Tags,
     Stack
@@ -100,7 +100,7 @@ class CDKStack(Stack):
             subnet_configuration=[
                 ec2.SubnetConfiguration(
                     name="public_subnet", 
-                    cidr_mask=26, 
+                    cidr_mask=28, 
                     subnet_type=ec2.SubnetType.PUBLIC
                 ),
                 ec2.SubnetConfiguration(
@@ -141,23 +141,25 @@ class CDKStack(Stack):
 
         # VPC Peering connection from VPC1 to VPC2 through Route Table 
 
-        self.web_to_admin_route=ec2.CfnRoute(
-            self,
-            "Web_to_Admin_Route",
-            route_table_id=vpc_webserver.public_subnets[0].route_table.route_table_id,
-            destination_cidr_block=vpc_adminserver.vpc_cidr_block,
-            vpc_peering_connection_id=vpc_peering_connection.ref,
-        )
+        for i in range (0, 1):
+            self.web_to_admin_route=ec2.CfnRoute(
+                self,
+                "Web_to_Admin_Route",
+                route_table_id=vpc_webserver.public_subnets[i].route_table.route_table_id,
+                destination_cidr_block=vpc_adminserver.vpc_cidr_block,
+                vpc_peering_connection_id=vpc_peering_connection.ref,
+            )
 
         # VPC Peering connection from VPC2 to VPC1 through Route Table 
 
-        self.admin_to_Web_Route=ec2.CfnRoute(
-            self,
-            "Admin_to_Web_Route",
-            route_table_id=vpc_adminserver.public_subnets[1].route_table.route_table_id,
-            destination_cidr_block=vpc_webserver.vpc_cidr_block,
-            vpc_peering_connection_id=vpc_peering_connection.ref,
-        )
+        for i in range(0, 1):
+            self.admin_to_Web_Route=ec2.CfnRoute(
+                self,
+                "Admin_to_Web_Route",
+                route_table_id=vpc_adminserver.public_subnets[i].route_table.route_table_id,
+                destination_cidr_block=vpc_webserver.vpc_cidr_block,
+                vpc_peering_connection_id=vpc_peering_connection.ref,
+            )
 # self.cfn_VPCPeering_connection =ec2.CfnVPCPeeringConnection(self, "VPC peering connection",
 #             peer_vpc_id = AdminVPC.vpc_id,
 #             vpc_id = WebVPC.vpc_id,
@@ -309,46 +311,46 @@ class CDKStack(Stack):
 
         # Security Group Auto Scaling Group
 
-        asg_sg = ec2.SecurityGroup(
+        asg_sg=ec2.SecurityGroup(
             self, 
             "Auto_Scaling_Group_Security_Group",
-            vpc= vpc_webserver,
+            vpc=vpc_webserver,
             description= "Security group of the Auto Scaling Group",
             allow_all_outbound=True
         )
         asg_sg.add_ingress_rule(
-            peer= ec2.Peer.any_ipv4(), 
-            connection= ec2.Port.tcp(80), 
-            description= "allow IPv4 HTTP access from the world"
+            peer=ec2.Peer.any_ipv4(), 
+            connection=ec2.Port.tcp(80), 
+            description="allow IPv4 HTTP access from the world"
         )
         asg_sg.add_ingress_rule(
-            peer= ec2.Peer.any_ipv4(), 
-            connection= ec2.Port.tcp(443), 
-            description= "allow IPv4 HTTPS acccess from the world"
+            peer=ec2.Peer.any_ipv4(), 
+            connection=ec2.Port.tcp(443), 
+            description="allow IPv4 HTTPS acccess from the world"
         )
         asg_sg.add_ingress_rule(
-            peer= ec2.Peer.any_ipv6(), 
-            connection= ec2.Port.tcp(80), 
-            description= "allow IPv6 HTTP acccess from the world"
+            peer=ec2.Peer.any_ipv6(), 
+            connection=ec2.Port.tcp(80), 
+            description="allow IPv6 HTTP acccess from the world"
         )
         asg_sg.add_ingress_rule(
-            peer= ec2.Peer.any_ipv6(), 
-            connection= ec2.Port.tcp(443), 
-            description= "allow IPv6 HTTPS acccess from the world"
+            peer=ec2.Peer.any_ipv6(), 
+            connection=ec2.Port.tcp(443), 
+            description="allow IPv6 HTTPS acccess from the world"
         )
         asg_sg.add_ingress_rule(
-            peer= ec2.Peer.ipv4("10.20.20.128/25"), 
-            connection= ec2.Port.tcp(22), 
-            description= "allow SSH access from Admin Server IP adress"
+            peer=ec2.Peer.ipv4("10.20.20.128/25"), 
+            connection=ec2.Port.tcp(22), 
+            description="allow SSH access from Admin Server IP adress"
         )
 
         # Security Group Admin Server
 
-        adminserver_sg = ec2.SecurityGroup(
+        adminserver_sg=ec2.SecurityGroup(
             self, 
             "Adminserver_Security_Group",
             vpc=vpc_adminserver,
-            description= "Security group of the Adminserver",
+            description="Security group of the Adminserver",
             allow_all_outbound=True
         )
         adminserver_sg.add_ingress_rule(
