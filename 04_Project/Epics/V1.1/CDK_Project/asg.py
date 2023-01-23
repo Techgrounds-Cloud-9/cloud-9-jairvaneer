@@ -2,6 +2,7 @@ from aws_cdk import (
     Duration,
     aws_ec2 as ec2,
     aws_autoscaling as autoscaling,
+    aws_elasticloadbalancingv2 as elbv2,
     aws_iam as iam,
 )
 
@@ -10,7 +11,7 @@ from constructs import Construct
 
 class ASG_Construct(Construct):
 
-    def __init__(self, scope: Construct, construct_id: str, vpc, security_group, s3_bucket, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, vpc, security_group: ec2.SecurityGroup, s3_bucket, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         # # Allow EC2 instance to get files from the bucket
@@ -92,3 +93,20 @@ class ASG_Construct(Construct):
         asg.user_data.add_execute_file_command(
             file_path=script_path
         )
+
+
+        # # Create an ALB
+        # alb = elbv2.ApplicationLoadBalancer(
+        #     self, 'ALB',
+        #     vpc=vpc,
+        #     internet_facing=True
+        # )
+
+        # # Create a listener for the ALB on port 80
+        # listener = alb.add_listener("Listener", port=80)
+
+        # # Create a target group for the listener
+        # target_group = listener.add_targets("Targets", port=8080, targets=[asg])
+
+        # # Allow the ASG to communicate with the ALB
+        # asg.connections.allow_to(target_group, connection_type=ec2.Port.tcp(80))

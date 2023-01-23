@@ -13,7 +13,7 @@ class ALB_SG_Construct(Construct):
     def __init__(self, scope: Construct, construct_id: str, vpc, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        alb_sg= ec2.SecurityGroup(
+        alb_sg = ec2.SecurityGroup(
             self, 
             "Application_Load_Balancer_Security_Group",
             vpc=vpc,
