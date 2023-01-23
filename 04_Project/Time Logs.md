@@ -1,13 +1,13 @@
 ____
 
-# Log [date]
+# Log 20/01/2023
 
 ## One Sentence summary of the day
-
+Working on the SSL certificate.
 ## Challenges
-
+How to install Boto3 and OpenSSL
 ## Solutions
-
+Ran `pip install boto3` and `pip install pyopenssl` outside of trhe virtual environment and restarted VS Code.
 
 ____
 
